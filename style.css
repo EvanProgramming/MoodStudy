@@ -1,0 +1,415 @@
+/* Reset & Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: auto; /* Let Lenis handle smooth scrolling */
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #050505;
+    color: #ffffff;
+    overflow-x: hidden;
+    cursor: none;
+}
+
+/* Custom Cursor */
+.custom-cursor {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: width 0.2s, height 0.2s, border-color 0.2s;
+}
+
+.custom-cursor.hover {
+    width: 40px;
+    height: 40px;
+    border-color: rgba(100, 200, 255, 0.8);
+}
+
+/* Canvas Container */
+#canvas-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Sections */
+.section {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    padding: 5rem 2rem;
+}
+
+.content {
+    max-width: 1400px;
+    width: 100%;
+}
+
+/* Hero Section */
+.section-hero {
+    align-items: center;
+    text-align: center;
+}
+
+.section-hero .content {
+    position: relative;
+    z-index: 2;
+}
+
+/* Scroll Hint */
+.scroll-hint {
+    position: absolute;
+    left: 50%;
+    bottom: 2.25rem;
+    transform: translateX(-50%);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.65rem 1rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    background: rgba(255, 255, 255, 0.04);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    color: rgba(255, 255, 255, 0.85);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: none; /* match custom cursor setup */
+    z-index: 3;
+    transition: opacity 0.25s ease, transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+}
+
+.scroll-hint:hover {
+    border-color: rgba(100, 200, 255, 0.6);
+    background: rgba(255, 255, 255, 0.06);
+    transform: translateX(-50%) translateY(-2px);
+}
+
+.scroll-hint:focus-visible {
+    outline: 2px solid rgba(100, 200, 255, 0.9);
+    outline-offset: 4px;
+}
+
+.scroll-hint.is-hidden {
+    opacity: 0;
+    transform: translateX(-50%) translateY(10px);
+    pointer-events: none;
+}
+
+.scroll-hint__label {
+    opacity: 0.9;
+}
+
+.scroll-hint__icon {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    display: grid;
+    place-items: center;
+}
+
+.scroll-hint__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: rgba(100, 200, 255, 0.9);
+    box-shadow: 0 0 18px rgba(100, 200, 255, 0.35);
+    animation: scrollHintPulse 1.8s ease-in-out infinite;
+}
+
+.scroll-hint__arrow {
+    position: absolute;
+    bottom: -6px;
+    width: 8px;
+    height: 8px;
+    border-right: 2px solid rgba(255, 255, 255, 0.7);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.7);
+    transform: rotate(45deg);
+    animation: scrollHintBounce 1.3s ease-in-out infinite;
+    opacity: 0.9;
+}
+
+@keyframes scrollHintBounce {
+    0%, 100% { transform: rotate(45deg) translate(0, 0); opacity: 0.75; }
+    50% { transform: rotate(45deg) translate(0, 4px); opacity: 1; }
+}
+
+@keyframes scrollHintPulse {
+    0%, 100% { transform: scale(1); opacity: 0.9; }
+    50% { transform: scale(0.75); opacity: 0.55; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .scroll-hint__dot,
+    .scroll-hint__arrow {
+        animation: none;
+    }
+    .scroll-hint {
+        transition: none;
+    }
+}
+
+.hero-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(3rem, 12vw, 12rem);
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+    margin-bottom: 2rem;
+    text-shadow: 0 0 40px rgba(100, 200, 255, 0.3);
+    opacity: 0;
+}
+
+.hero-title.is-split {
+    opacity: 1;
+}
+
+.hero-title .char {
+    display: inline-block;
+    opacity: 0;
+}
+
+.hero-subtitle {
+    font-size: clamp(1rem, 2vw, 1.5rem);
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.7);
+    opacity: 0;
+}
+
+/* Content Grid */
+.content-grid {
+    max-width: 1400px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+}
+
+.content-grid.reverse {
+    direction: rtl;
+}
+
+.content-grid.reverse > * {
+    direction: ltr;
+}
+
+/* Glassmorphism Cards */
+.glass-card {
+    background: rgba(255, 255, 255, 0.03);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 4rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+@media (min-width: 1024px) {
+    .content-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* Section Titles */
+.section-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: #ffffff;
+    line-height: 1.1;
+}
+
+.section-text {
+    font-size: clamp(1rem, 1.5vw, 1.25rem);
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 2rem;
+}
+
+/* Data Visualization */
+.data-visualization {
+    margin-top: 3rem;
+}
+
+.viz-item {
+    margin-bottom: 1.5rem;
+}
+
+.viz-label {
+    display: block;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.viz-bar {
+    height: 4px;
+    background: linear-gradient(90deg, rgba(100, 200, 255, 0.8), rgba(100, 200, 255, 0.3));
+    border-radius: 2px;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.6;
+    }
+}
+
+/* Goals List */
+.goals-list {
+    list-style: none;
+    margin-top: 2rem;
+}
+
+.goal-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 1.1rem;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.goal-item:last-child {
+    border-bottom: none;
+}
+
+.goal-item:hover {
+    transform: translateX(10px);
+    color: rgba(100, 200, 255, 1);
+}
+
+.goal-icon {
+    color: rgba(100, 200, 255, 0.8);
+    font-size: 1.5rem;
+}
+
+.goal-text {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Footer */
+.footer {
+    position: relative;
+    min-height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    padding: 5rem 2rem;
+}
+
+/* Magnetic Button */
+.magnetic-btn {
+    position: relative;
+    padding: 1.5rem 4rem;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #050505;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
+    border: 2px solid rgba(100, 200, 255, 0.5);
+    border-radius: 50px;
+    cursor: none;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    z-index: 1;
+}
+
+.magnetic-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 40px rgba(100, 200, 255, 0.4);
+}
+
+.magnetic-btn:active {
+    filter: brightness(0.8);
+  }
+
+.magnetic-btn .btn-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, rgba(100, 200, 255, 0.6), transparent);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
+    z-index: -1;
+    border-radius: 50%;
+}
+
+.magnetic-btn:hover .btn-glow {
+    width: 300px;
+    height: 300px;
+}
+
+.magnetic-btn .btn-text {
+    position: relative;
+    z-index: 1;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .glass-card {
+        padding: 2rem;
+    }
+    
+    .section {
+        padding: 3rem 1.5rem;
+    }
+
+    .scroll-hint {
+        bottom: 1.5rem;
+        padding: 0.6rem 0.9rem;
+        font-size: 0.85rem;
+    }
+}
+
+/* Hide scrollbar but keep functionality */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
