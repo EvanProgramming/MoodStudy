@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
     <!-- Three.js Canvas Container -->
@@ -89,6 +90,32 @@
         </button>
     </footer>
 
+    <!-- Auth Overlay (Hidden by default) -->
+    <div id="auth-overlay" class="hidden" role="dialog" aria-modal="true" aria-label="Authentication modal">
+        <div id="auth-card" role="document">
+            <button id="auth-close" type="button" aria-label="Close authentication modal">X</button>
+
+            <h2 id="auth-title">IDENTIFY YOURSELF</h2>
+
+            <div id="auth-tabs" role="tablist" aria-label="Authentication mode">
+                <button id="auth-tab-login" class="auth-tab is-active" type="button" role="tab" aria-selected="true">Login</button>
+                <button id="auth-tab-register" class="auth-tab" type="button" role="tab" aria-selected="false">Register</button>
+            </div>
+
+            <form id="auth-form">
+                <label class="auth-label" for="auth-email">Email</label>
+                <input id="auth-email" class="auth-input" type="email" autocomplete="email" placeholder="you@domain.com" required />
+
+                <label class="auth-label" for="auth-password">Password</label>
+                <input id="auth-password" class="auth-input" type="password" autocomplete="current-password" placeholder="••••••••" required />
+
+                <div id="auth-error" aria-live="polite"></div>
+
+                <button id="auth-submit" class="auth-submit" type="submit">CONNECT</button>
+            </form>
+        </div>
+    </div>
+
     <!-- Dependencies -->
     <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -100,6 +127,8 @@
         }
     }
     </script>
+    <script src="supabaseClient.js"></script>
+    <script src="auth.js"></script>
     <script type="module" src="app.js"></script>
 </body>
 </html>
