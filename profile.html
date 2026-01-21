@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mood Study — Profile</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="profile.css" />
+
+    <!-- Supabase SDK (global window.supabase) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- GSAP for load animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+    <!-- Three.js (small profile-only orb scene) -->
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://esm.sh/three@0.163.0"
+        }
+      }
+    </script>
+  </head>
+
+  <body>
+    <div class="bg-effects" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <a class="logo" href="dashboard.html" aria-label="Mood Study Dashboard">
+        <span class="logo__mark" aria-hidden="true"></span>
+        <span class="logo__text">Mood Study</span>
+      </a>
+
+      <a class="back-btn" href="dashboard.html">Back</a>
+    </header>
+
+    <main class="container">
+      <section class="split" aria-label="Profile editor">
+        <!-- Left Column: Form -->
+        <section id="profile-form-card" class="glass form-panel" aria-label="Profile form">
+          <div class="form-head">
+            <div class="kicker">Long-term</div>
+            <h1 class="title">Academic Goals</h1>
+            <p class="subtitle">Keep your targets sharp. We’ll use these signals to personalize your planning.</p>
+          </div>
+
+          <!-- Section A: Identity -->
+          <div class="section">
+            <div class="section__head">
+              <h2 class="section__title">Identity</h2>
+              <p class="section__hint">Grade + GPA act as baseline calibration.</p>
+            </div>
+
+            <div class="field">
+              <div class="field__label">Grade Level</div>
+              <div id="grade-group" class="segmented" role="group" aria-label="Grade level">
+                <button class="segmented__btn" type="button" data-grade="G9" aria-pressed="false">G9</button>
+                <button class="segmented__btn" type="button" data-grade="G10" aria-pressed="false">G10</button>
+                <button class="segmented__btn" type="button" data-grade="G11" aria-pressed="false">G11</button>
+                <button class="segmented__btn" type="button" data-grade="G12" aria-pressed="false">G12</button>
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="field__row">
+                <div class="field__label">GPA</div>
+                <div class="gpa-display" aria-label="GPA value">
+                  <span id="gpa-value">0.0</span><span class="gpa-unit">/ 5.0</span>
+                </div>
+              </div>
+              <input
+                id="gpa-input"
+                class="range__input"
+                type="range"
+                min="0"
+                max="5"
+                step="0.1"
+                value="0"
+                aria-label="GPA slider"
+              />
+              <div class="range__labels">
+                <span>0.0</span>
+                <span>5.0</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section B: Goals -->
+          <div class="section">
+            <div class="section__head">
+              <h2 class="section__title">Goals</h2>
+              <p class="section__hint">Where you’re aiming. We’ll keep it concise.</p>
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="major-input">Target Major</label>
+              <input
+                id="major-input"
+                class="text-input"
+                type="text"
+                placeholder='e.g., "Computer Science"'
+                autocomplete="off"
+              />
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="region-input">Target Region</label>
+              <input
+                id="region-input"
+                class="text-input"
+                type="text"
+                placeholder='e.g., "California, US"'
+                autocomplete="off"
+              />
+            </div>
+          </div>
+
+          <!-- Section C: Course Load -->
+          <div class="section">
+            <div class="section__head">
+              <h2 class="section__title">Course Load (AP/IB)</h2>
+              <p class="section__hint">Tap to toggle. Selected courses glow cyan.</p>
+            </div>
+
+            <div id="ap-tags" class="tags" aria-label="AP course tags">
+              <button class="ap-tag" type="button" data-tag="Calc BC">Calc BC</button>
+              <button class="ap-tag" type="button" data-tag="Physics C">Physics C</button>
+              <button class="ap-tag" type="button" data-tag="CSA">CSA</button>
+              <button class="ap-tag" type="button" data-tag="Chem">Chem</button>
+              <button class="ap-tag" type="button" data-tag="Bio">Bio</button>
+              <button class="ap-tag" type="button" data-tag="Psych">Psych</button>
+              <button class="ap-tag" type="button" data-tag="US History">US History</button>
+            </div>
+
+            <div class="actions">
+              <button id="save-btn" class="btn btn--primary" type="button">Save Profile</button>
+              <div class="microcopy" id="save-microcopy">Saved data syncs to your dashboard.</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Right Column: Visual -->
+        <aside class="glass visual-panel" aria-label="Visual feedback">
+          <div class="visual-head">
+            <div class="kicker">Feedback</div>
+            <h2 class="visual-title">Signal Orb</h2>
+            <p class="visual-subtitle">Move the GPA slider to modulate the sphere.</p>
+          </div>
+          <div id="sphere-container" class="sphere-container" aria-hidden="true"></div>
+          <div class="visual-footer">
+            <div class="stat">
+              <div class="stat__label">Current GPA</div>
+              <div class="stat__value"><span id="gpa-readout">0.0</span></div>
+            </div>
+            <div class="stat">
+              <div class="stat__label">AP Selected</div>
+              <div class="stat__value"><span id="ap-count">0</span></div>
+            </div>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+    <script type="module" src="profile.js"></script>
+  </body>
+</html>
+
