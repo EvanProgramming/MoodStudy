@@ -39,6 +39,7 @@ const dailyData = { sleep_hours: 0, study_hours: 0, game_hours: 0, mood: 5 };
 let currentStep = 0;
 let isTransitioning = false;
 let isGenerating = false;
+let currentUser = null;
 
 const els = {
   container: document.getElementById('question-container'),
@@ -477,17 +478,6 @@ function buildPrompt({ profile, log }) {
   return `User Profile: GPA ${p.gpa}, Aiming for ${p.major}. Today's Log: Sleep ${sleep}h, Study ${study}h, Game ${game}h, Mood ${mood}/10. Task: Give a 1-paragraph summary of their state and 1 specific advice for tomorrow.`;
 }
 
-async function saveDailyLog() {
-  return await supabase.from('daily_logs').insert([
-    {
-      sleep_hours: dailyData.sleep_hours,
-      study_hours: dailyData.study_hours,
-      game_hours: dailyData.game_hours,
-      mood: dailyData.mood,
-    },
-  ]);
-}
-
 async function fetchUserProfile() {
   return await supabase
     .from('user_data')
@@ -595,20 +585,64 @@ async function finalizeAndGenerate() {
   const nextBtn = document.getElementById('next-btn');
   if (nextBtn) nextBtn.disabled = true;
 
+  // 1) Verify Data Collection (force numeric types right before save)
+  const sleepValRaw = parseFloat(dailyData.sleep_hours || 0);
+  const studyValRaw = parseFloat(dailyData.study_hours || 0);
+  const gameValRaw = parseFloat(dailyData.game_hours || 0);
+  const moodValRaw = parseInt(dailyData.mood || 5, 10);
+
+  const sleepVal = Number.isFinite(sleepValRaw) ? sleepValRaw : 0;
+  const studyVal = Number.isFinite(studyValRaw) ? studyValRaw : 0;
+  const gameVal = Number.isFinite(gameValRaw) ? gameValRaw : 0;
+  const moodVal = Number.isFinite(moodValRaw) ? moodValRaw : 5;
+
+  // Keep state in sync (prevents any downstream mismatch)
+  dailyData.sleep_hours = sleepVal;
+  dailyData.study_hours = studyVal;
+  dailyData.game_hours = gameVal;
+  dailyData.mood = clamp(moodVal, 1, 10);
+
   let profile = null;
   let analysisText = '';
 
   try {
-    // Save log first (strict column compliance)
-    const insertRes = await saveDailyLog();
-    if (insertRes.error) throw insertRes.error;
+    // 2) Verify Database Insert (schema mapping + hard fail on error)
+    const userId = currentUser?.id;
+    if (!userId) {
+      throw new Error('No authenticated user found. Please log in again.');
+    }
+
+    const { error: logError } = await supabase
+      .from('daily_logs')
+      .insert({
+        user_id: userId,
+        sleep_hours: sleepVal, // Column: sleep_hours
+        study_hours: studyVal, // Column: study_hours
+        game_hours: gameVal, // Column: game_hours
+        mood: dailyData.mood, // Column: mood
+        updated_at: new Date().toISOString(),
+      });
+
+    if (logError) {
+      console.error('Log Error:', logError);
+      throw logError; // Stop execution if save fails
+    }
 
     // Fetch context (strict column compliance)
     const profileRes = await fetchUserProfile();
     if (profileRes.error) throw profileRes.error;
     profile = profileRes.data || null;
 
-    const prompt = buildPrompt({ profile, log: dailyData });
+    // 3) Verify AI Logic (only after save confirmed; use numeric values)
+    const prompt = buildPrompt({
+      profile,
+      log: {
+        sleep_hours: sleepVal,
+        study_hours: studyVal,
+        game_hours: gameVal,
+        mood: dailyData.mood,
+      },
+    });
 
     try {
       analysisText = await callAI(prompt);
@@ -670,6 +704,7 @@ function wireGlobalKeys() {
 async function init() {
   const user = await requireAuthOrRedirect();
   if (!user) return;
+  currentUser = user;
 
   wireGlobalKeys();
 
