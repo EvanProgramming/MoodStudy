@@ -288,6 +288,25 @@ button {
   opacity: 1;
 }
 
+/* Disabled state (once-per-day limit) */
+.action-card.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  filter: grayscale(1);
+}
+
+.action-card.disabled:hover {
+  transform: none;
+  border-color: rgba(255, 255, 255, 0.10);
+  box-shadow:
+    0 18px 70px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+}
+
+.action-card.disabled:hover .action-card__glow {
+  opacity: 0;
+}
+
 /* Insight console */
 .insight {
   padding: 1.2rem 1.25rem 1.1rem;

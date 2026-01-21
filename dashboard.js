@@ -144,6 +144,53 @@ function animateIn() {
   });
 }
 
+function getUtcTodayBounds() {
+  // YYYY-MM-DD in UTC (matches the spec snippet)
+  const today = new Date().toISOString().split('T')[0];
+  return {
+    today,
+    start: `${today}T00:00:00.000Z`,
+    end: `${today}T23:59:59.999Z`,
+  };
+}
+
+async function gateDailyCheckin(user) {
+  const dailyCard = document.getElementById('card-daily'); // actual ID in dashboard.html
+  if (!dailyCard) return;
+
+  const { start, end } = getUtcTodayBounds();
+  const { data: logs, error } = await supabase
+    .from('daily_logs')
+    .select('created_at')
+    .eq('user_id', user.id)
+    .gte('created_at', start)
+    .lt('created_at', end)
+    .limit(1);
+
+  if (error) {
+    console.warn('daily_logs gate check error:', error.message || error);
+    return;
+  }
+
+  if (logs && logs.length > 0) {
+    dailyCard.classList.add('disabled');
+    dailyCard.setAttribute('aria-disabled', 'true');
+
+    const title = dailyCard.querySelector('.action-card__title');
+    const text = dailyCard.querySelector('.action-card__text');
+    const cta = dailyCard.querySelector('.action-card__cta');
+
+    if (title) title.textContent = 'Daily Log Completed ✅';
+    if (text) text.textContent = 'You already logged today. Come back tomorrow.';
+    if (cta) cta.textContent = 'Completed';
+
+    dailyCard.addEventListener('click', (e) => {
+      e.preventDefault();
+      alert("You've already logged your mood today! Come back tomorrow.");
+    });
+  }
+}
+
 async function init() {
   const user = await requireAuthOrRedirect();
   if (!user) return;
@@ -160,7 +207,7 @@ async function init() {
 
   await handleLogout();
 
-  await Promise.allSettled([loadProfileBadge(), loadLatestInsight()]);
+  await Promise.allSettled([gateDailyCheckin(user), loadProfileBadge(), loadLatestInsight()]);
 
   animateIn();
 }

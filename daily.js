@@ -1,7 +1,7 @@
 import './supabaseClient.js';
+import { CONFIG } from './config.js';
 
-// IMPORTANT: Replace with your Hugging Face token.
-const HF_TOKEN = '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';
+const HF_TOKEN = String(CONFIG?.HF_TOKEN || '').trim();
 
 // You can swap this to any text-generation model you have access to.
 const HF_MODEL = 'mistralai/Mistral-7B-Instruct-v0.2';
@@ -61,6 +61,49 @@ function clamp(n, min, max) {
 
 function prefersReducedMotion() {
   return Boolean(window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches);
+}
+
+function getUtcTodayBounds() {
+  // YYYY-MM-DD in UTC (matches the spec snippet)
+  const today = new Date().toISOString().split('T')[0];
+  return {
+    today,
+    start: `${today}T00:00:00.000Z`,
+    end: `${today}T23:59:59.999Z`,
+  };
+}
+
+async function hasDailyLogForToday(user) {
+  const { start, end } = getUtcTodayBounds();
+  const { data: logs, error } = await supabase
+    .from('daily_logs')
+    .select('created_at')
+    .eq('user_id', user.id)
+    .gte('created_at', start)
+    .lt('created_at', end)
+    .limit(1);
+
+  if (error) {
+    console.warn('daily_logs gate check error:', error.message || error);
+    return false;
+  }
+
+  return Boolean(logs && logs.length > 0);
+}
+
+function showDoneForTodayOverlay() {
+  if (!els.resultOverlay || !els.resultText) return;
+
+  const titleEl = document.getElementById('result-title');
+  if (titleEl) titleEl.textContent = 'Daily Log Completed ✅';
+
+  els.resultText.textContent =
+    "You're done for today. Come back tomorrow for your next AI analysis.\n\nRedirecting to dashboard…";
+
+  if (els.skipType) els.skipType.classList.add('hidden');
+  if (els.resultClose) els.resultClose.classList.add('hidden');
+
+  openResultOverlay();
 }
 
 async function requireAuthOrRedirect() {
@@ -510,8 +553,8 @@ async function saveAIResult({ userId, aiText }) {
 }
 
 async function callAI(prompt) {
-  if (!HF_TOKEN || HF_TOKEN === 'YOUR_KEY_HERE') {
-    throw new Error('HF_TOKEN is not set. Add your Hugging Face token in daily.js.');
+  if (!HF_TOKEN || HF_TOKEN === 'YOUR_NEW_HF_TOKEN_HERE') {
+    throw new Error('HF_TOKEN is not set. Add your Hugging Face token in config.js.');
   }
 
   const HfInference = await getHfInferenceCtor();
@@ -720,6 +763,14 @@ async function init() {
   const user = await requireAuthOrRedirect();
   if (!user) return;
   currentUser = user;
+
+  // Double-check gate: block direct URL access if already logged today
+  const alreadyLoggedToday = await hasDailyLogForToday(user);
+  if (alreadyLoggedToday) {
+    showDoneForTodayOverlay();
+    setTimeout(() => window.location.replace('dashboard.html'), 3000);
+    return;
+  }
 
   wireGlobalKeys();
 

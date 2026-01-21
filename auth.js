@@ -1,4 +1,7 @@
+import './supabaseClient.js';
+
 (() => {
+
   const overlay = document.getElementById('auth-overlay');
   const card = document.getElementById('auth-card');
   const closeBtn = document.getElementById('auth-close');
@@ -99,7 +102,7 @@
 
     const client = window.supabaseClient;
     if (!client) {
-      setError('Supabase is not configured yet. Fill in YOUR_SUPABASE_URL and YOUR_SUPABASE_KEY in supabaseClient.js.');
+      setError('Supabase is not configured yet. Fill in SUPABASE_URL and SUPABASE_KEY in config.js.');
       shake();
       return;
     }
