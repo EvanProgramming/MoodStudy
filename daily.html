@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mood Study — Daily Check-in</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="daily.css" />
+
+    <!-- Supabase SDK (global window.supabase) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- GSAP for step transitions -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  </head>
+
+  <body>
+    <div class="bg-effects" aria-hidden="true"></div>
+
+    <!-- Progress Bar -->
+    <div class="progress" aria-hidden="true">
+      <div id="progress-bar" class="progress__bar"></div>
+    </div>
+
+    <main class="viewport" aria-label="Daily check-in">
+      <section id="question-container" class="glass" aria-live="polite"></section>
+    </main>
+
+    <!-- Result Overlay (Hidden until step 5 completes) -->
+    <section
+      id="result-overlay"
+      class="result-overlay hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="result-title"
+    >
+      <div class="result-card glass">
+        <div class="result-header">
+          <div>
+            <div class="result-kicker">AI Output</div>
+            <h2 id="result-title" class="result-title">Daily Analysis</h2>
+          </div>
+          <button id="result-close" class="icon-btn" type="button" aria-label="Close">
+            ✕
+          </button>
+        </div>
+
+        <pre id="result-text" class="result-text">—</pre>
+
+        <div class="result-actions">
+          <button id="skip-type" class="btn btn--ghost" type="button">
+            Skip Typewriter
+          </button>
+          <a class="btn btn--primary" href="dashboard.html">Back to Dashboard</a>
+        </div>
+      </div>
+    </section>
+
+    <script type="module" src="daily.js"></script>
+  </body>
+</html>
+

@@ -122,7 +122,7 @@
       }
 
       alert('Welcome');
-      window.location.href = 'sync.html';
+      window.location.href = 'dashboard.html';
     } catch (err) {
       setError(err?.message || 'Something went wrong. Try again.');
       shake();

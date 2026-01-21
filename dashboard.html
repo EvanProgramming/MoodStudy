@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mood Study — Dashboard</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="dashboard.css" />
+
+    <!-- Supabase SDK (global window.supabase) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- GSAP for load animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  </head>
+  <body>
+    <div class="bg-effects" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <a class="logo" href="dashboard.html" aria-label="Mood Study Dashboard">
+        <span class="logo__mark" aria-hidden="true"></span>
+        <span class="logo__text">Mood Study</span>
+      </a>
+
+      <button id="logout-btn" class="logout-btn" type="button">
+        Logout
+      </button>
+    </header>
+
+    <main class="container">
+      <section class="hero glass" aria-label="Greeting">
+        <div class="hero__copy">
+          <h1 class="hero__title">
+            Welcome back, <span id="user-identity">Operator</span>.
+          </h1>
+          <p class="hero__subtitle">
+            Your academic rhythm is
+            <span id="rhythm-status" class="status">Stable</span>.
+          </p>
+        </div>
+
+        <div class="hero__badges">
+          <span id="major-badge" class="badge" title="Your focus area">
+            Loading profile…
+          </span>
+        </div>
+      </section>
+
+      <section class="nav-grid" aria-label="Core actions">
+        <a class="action-card glass" id="card-daily" href="daily.html">
+          <div class="action-card__icon" aria-hidden="true">
+            <!-- Pulse / waveform -->
+            <svg viewBox="0 0 24 24" fill="none">
+              <path
+                d="M2 12h4l2.2-6.2L12 18l2.4-7 1.6 4H22"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+          <div class="action-card__body">
+            <h2 class="action-card__title">Daily Signal</h2>
+            <p class="action-card__text">Log Sleep, Mood & Habits.</p>
+            <span class="action-card__cta">Open →</span>
+          </div>
+          <span class="action-card__glow" aria-hidden="true"></span>
+        </a>
+
+        <a class="action-card glass" id="card-plan" href="profile.html">
+          <div class="action-card__icon" aria-hidden="true">
+            <!-- Target / compass -->
+            <svg viewBox="0 0 24 24" fill="none">
+              <path
+                d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Z"
+                stroke="currentColor"
+                stroke-width="2"
+              />
+              <path
+                d="M14.8 9.2 19 5l-4.2 4.2-2.3 6.1-6.1 2.3 6.1-2.3 2.3-6.1Z"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M12 12h.01"
+                stroke="currentColor"
+                stroke-width="4"
+                stroke-linecap="round"
+              />
+            </svg>
+          </div>
+          <div class="action-card__body">
+            <h2 class="action-card__title">Master Plan</h2>
+            <p class="action-card__text">Update GPA, APs & Uni Goals.</p>
+            <span class="action-card__cta">Open →</span>
+          </div>
+          <span class="action-card__glow" aria-hidden="true"></span>
+        </a>
+      </section>
+
+      <section class="insight glass" aria-labelledby="insight-title">
+        <div class="insight__header">
+          <h3 id="insight-title" class="insight__title">Insight Console</h3>
+          <span id="insight-meta" class="insight__meta">—</span>
+        </div>
+        <pre id="insight-text" class="insight__terminal">Fetching latest strategy…</pre>
+      </section>
+    </main>
+
+    <script type="module" src="dashboard.js"></script>
+  </body>
+</html>
