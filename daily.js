@@ -486,12 +486,27 @@ async function fetchUserProfile() {
     .maybeSingle();
 }
 
-async function saveAIResult(strategyText) {
-  return await supabase.from('ai_recommendations').insert([
-    {
-      strategy_plan: String(strategyText || '').trim(),
-    },
-  ]);
+async function saveAIResult({ userId, aiText }) {
+  // 1. Clean the text (remove quotes if needed)
+  const cleanText = String(aiText || '').trim();
+
+  // 2. Insert into Supabase
+  const { error: aiSaveError } = await supabase
+    .from('ai_recommendations')
+    .insert({
+      user_id: userId,
+      strategy_plan: cleanText, // Column Name: strategy_plan
+      // recommended_unis: [],   // Optional: if your prompt returns JSON, parse it here
+      created_at: new Date(),
+    });
+
+  if (aiSaveError) {
+    console.error('Failed to save AI result:', aiSaveError);
+  } else {
+    console.log('AI Result saved to DB!');
+  }
+
+  return { cleanText, aiSaveError };
 }
 
 async function callAI(prompt) {
@@ -651,9 +666,9 @@ async function finalizeAndGenerate() {
       analysisText = fallbackAnalysis(profile);
     }
 
-    // Save AI result (strict column compliance)
-    const saveAIRes = await saveAIResult(analysisText);
-    if (saveAIRes.error) throw saveAIRes.error;
+    // Save AI result (must include user_id + strategy_plan + created_at)
+    const { cleanText } = await saveAIResult({ userId, aiText: analysisText });
+    analysisText = cleanText;
   } catch (err) {
     console.warn('Daily finalize error:', err?.message || err);
     if (!analysisText) {
