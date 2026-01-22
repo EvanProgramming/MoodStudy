@@ -490,17 +490,17 @@ function buildPrompt({ profile, log }) {
   const game = formatHours(log.game_hours);
   const mood = clamp(safeNum(log.mood, 5), 1, 10);
 
-  return `[INST] You are an academic performance coach.
-Student Profile: Grade ${p.grade}, GPA ${p.gpa}, Aiming for ${p.major}.
-Recent Habits: Sleep ${sleep}h, Study ${study}h, Gaming ${game}h, Mood ${mood}/10.
+  return `[INST] You are a concise academic coach.
+Context: Grade ${p.grade}, GPA ${p.gpa}, Goal: ${p.major}.
+Today: Sleep ${sleep}h, Study ${study}h, Game ${game}h, Mood ${mood}/10.
 
-Based on this data, provide a structured daily review.
-Format your response exactly like this:
-1. **Status Analysis**: (One sentence about their balance).
-2. **Immediate Adjustment**: (Specific advice for tomorrow and according to the user's ${p.major} goal to tell him how to achieve).
-3. **Long-term Note**: (How this affects their ${p.major} goal).
+Output strict JSON-like structure (but plain text) with 3 bullet points.
+Constraint: Maximum 60 words total.
 
-Keep it encouraging but realistic. Do not write generic fluff.
+Response Format:
+• ⚡ **Pulse**: [1 sentence analysis of balance]
+• 🎯 **Tactic**: [1 specific action for tomorrow]
+• 🔮 **Path**: [Link today's effort to ${p.major}]
 [/INST]`;
 }
 
