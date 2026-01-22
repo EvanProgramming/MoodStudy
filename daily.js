@@ -1,38 +1,9 @@
 import './supabaseClient.js';
-import { CONFIG } from './config.js';
-
-const HF_TOKEN = String(CONFIG?.HF_TOKEN || '').trim();
-
-// You can swap this to any text-generation model you have access to.
-const HF_MODEL = 'mistralai/Mistral-7B-Instruct-v0.2';
 
 const supabase = window.supabaseClient;
 
-let HfInferenceCtor = null;
-async function getHfInferenceCtor() {
-  if (HfInferenceCtor) return HfInferenceCtor;
-
-  // CDN import fallback chain (keeps the page resilient if a CDN hiccups)
-  const candidates = [
-    'https://cdn.jsdelivr.net/npm/@huggingface/inference@2.8.0/+esm',
-    'https://esm.sh/@huggingface/inference@2.8.0',
-  ];
-
-  let lastErr = null;
-  for (const url of candidates) {
-    try {
-      const mod = await import(url);
-      if (mod?.HfInference) {
-        HfInferenceCtor = mod.HfInference;
-        return HfInferenceCtor;
-      }
-    } catch (e) {
-      lastErr = e;
-    }
-  }
-
-  throw lastErr || new Error('Failed to import HfInference from CDN.');
-}
+// Backend proxy URL for AI analysis
+const PROXY_URL = 'https://moodstudy.top:5000/api/analyze';
 
 // A. State Management
 const dailyData = { sleep_hours: 0, study_hours: 0, game_hours: 0, mood: 5 };
@@ -565,24 +536,30 @@ async function saveAIResult({ userId, aiText }) {
 }
 
 async function callAI(prompt) {
-  if (!HF_TOKEN || HF_TOKEN === 'YOUR_NEW_HF_TOKEN_HERE') {
-    throw new Error('HF_TOKEN is not set. Add your Hugging Face token in config.js.');
-  }
-
-  const HfInference = await getHfInferenceCtor();
-  const hf = new HfInference(HF_TOKEN);
-  const res = await hf.textGeneration({
-    model: HF_MODEL,
-    inputs: prompt,
-    parameters: {
-      max_new_tokens: 400,
-      temperature: 0.7,
-      return_full_text: false,
+  const response = await fetch(PROXY_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
     },
+    body: JSON.stringify({
+      inputs: prompt // Send the prompt string constructed earlier
+    })
   });
 
-  const text = (res?.generated_text ?? '').trim();
-  if (!text) throw new Error('AI returned an empty response.');
+  if (!response.ok) {
+    throw new Error(`Proxy request failed: ${response.status} ${response.statusText}`);
+  }
+
+  const result = await response.json();
+  // The proxy returns the HF format directly, usually an array
+  // e.g., [{ generated_text: "..." }]
+  const aiText = result[0]?.generated_text || result?.generated_text || '';
+  const text = String(aiText).trim();
+  
+  if (!text) {
+    throw new Error('AI returned an empty response.');
+  }
+  
   return text;
 }
 
