@@ -505,6 +505,7 @@ function closeResultOverlay() {
 
 function normalizeProfile(profile) {
   return {
+    grade: profile?.grade ?? '—',
     gpa: profile?.gpa ?? '—',
     major: profile?.major ?? '—',
     ap_courses: profile?.ap_courses ?? '—',
@@ -518,13 +519,24 @@ function buildPrompt({ profile, log }) {
   const game = formatHours(log.game_hours);
   const mood = clamp(safeNum(log.mood, 5), 1, 10);
 
-  return `User Profile: GPA ${p.gpa}, Aiming for ${p.major}. Today's Log: Sleep ${sleep}h, Study ${study}h, Game ${game}h, Mood ${mood}/10. Task: Give a 1-paragraph summary of their state and provide 3 specific advice according to his target and his other data for tomorrow and the future. You may use bullet points to make it more readable. The output must be specific and output at least 200 words.`;
+  return `[INST] You are an academic performance coach.
+Student Profile: Grade ${p.grade}, GPA ${p.gpa}, Aiming for ${p.major}.
+Recent Habits: Sleep ${sleep}h, Study ${study}h, Gaming ${game}h, Mood ${mood}/10.
+
+Based on this data, provide a structured daily review.
+Format your response exactly like this:
+1. **Status Analysis**: (One sentence about their balance).
+2. **Immediate Adjustment**: (Specific advice for tomorrow and according to the user's ${p.major} goal to tell him how to achieve).
+3. **Long-term Note**: (How this affects their ${p.major} goal).
+
+Keep it encouraging but realistic. Do not write generic fluff.
+[/INST]`;
 }
 
 async function fetchUserProfile() {
   return await supabase
     .from('user_data')
-    .select('gpa, major, ap_courses')
+    .select('grade, gpa, major, ap_courses')
     .limit(1)
     .maybeSingle();
 }
@@ -563,7 +575,7 @@ async function callAI(prompt) {
     model: HF_MODEL,
     inputs: prompt,
     parameters: {
-      max_new_tokens: 220,
+      max_new_tokens: 400,
       temperature: 0.7,
       return_full_text: false,
     },
