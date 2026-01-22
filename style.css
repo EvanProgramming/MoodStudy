@@ -33,7 +33,7 @@ body {
     left: 0;
     top: 0;
     pointer-events: none;
-    z-index: 9999;
+    z-index: 999999;
     transform: translate(-50%, -50%);
     transition: width 0.2s, height 0.2s, border-color 0.2s;
 }

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mood Study - Sync</title>
     <link rel="stylesheet" href="style.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   </head>
   <body>
     <section class="section" data-section="sync">
@@ -18,6 +19,36 @@
         </div>
       </div>
     </section>
+
+    <script>
+      // ==========================================
+      // CUSTOM CURSOR
+      // ==========================================
+      const cursor = document.createElement('div');
+      cursor.className = 'custom-cursor';
+      document.body.appendChild(cursor);
+
+      document.addEventListener('mousemove', (e) => {
+        if (window.gsap) {
+          window.gsap.to(cursor, {
+            x: e.clientX,
+            y: e.clientY,
+            duration: 0.3,
+            ease: 'power2.out'
+          });
+        } else {
+          cursor.style.left = e.clientX + 'px';
+          cursor.style.top = e.clientY + 'px';
+        }
+      });
+
+      // Cursor hover effect on interactive elements
+      const interactiveElements = document.querySelectorAll('button, a, .goal-item');
+      interactiveElements.forEach(el => {
+        el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+        el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+      });
+    </script>
   </body>
 </html>
 

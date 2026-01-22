@@ -28,6 +28,11 @@ import './supabaseClient.js';
     errorEl.textContent = message || '';
   }
 
+  function isValidSignupEmail(email) {
+    // Strict: must contain '@' and end with .com/.edu/.top
+    return /^[^\s@]+@[^\s@]+\.(com|edu|top)$/i.test(email);
+  }
+
   function shake() {
     card.classList.remove('shake');
     // Force reflow so animation can re-trigger
@@ -104,6 +109,11 @@ import './supabaseClient.js';
     if (!client) {
       setError('Supabase is not configured yet. Fill in SUPABASE_URL and SUPABASE_KEY in config.js.');
       shake();
+      return;
+    }
+
+    if (mode === 'register' && !isValidSignupEmail(email)) {
+      alert('Please enter a valid email address');
       return;
     }
 

@@ -759,6 +759,48 @@ function wireGlobalKeys() {
   });
 }
 
+// ==========================================
+// CUSTOM CURSOR
+// ==========================================
+const cursor = document.createElement('div');
+cursor.className = 'custom-cursor';
+document.body.appendChild(cursor);
+
+document.addEventListener('mousemove', (e) => {
+  if (window.gsap) {
+    window.gsap.to(cursor, {
+      x: e.clientX,
+      y: e.clientY,
+      duration: 0.3,
+      ease: 'power2.out'
+    });
+  } else {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+  }
+});
+
+// Cursor hover effect on interactive elements
+const interactiveElements = document.querySelectorAll('button, a, .mood-btn, .range__input');
+interactiveElements.forEach(el => {
+  el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+  el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+});
+
+// Update interactive elements when DOM changes
+const observer = new MutationObserver(() => {
+  const newElements = document.querySelectorAll('button, a, .mood-btn, .range__input');
+  newElements.forEach(el => {
+    if (!el.hasAttribute('data-cursor-wired')) {
+      el.setAttribute('data-cursor-wired', 'true');
+      el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+    }
+  });
+});
+
+observer.observe(document.body, { childList: true, subtree: true });
+
 async function init() {
   const user = await requireAuthOrRedirect();
   if (!user) return;
