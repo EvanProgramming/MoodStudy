@@ -518,7 +518,7 @@ function buildPrompt({ profile, log }) {
   const game = formatHours(log.game_hours);
   const mood = clamp(safeNum(log.mood, 5), 1, 10);
 
-  return `User Profile: GPA ${p.gpa}, Aiming for ${p.major}. Today's Log: Sleep ${sleep}h, Study ${study}h, Game ${game}h, Mood ${mood}/10. Task: Give a 1-paragraph summary of their state and 1 specific advice for tomorrow.`;
+  return `User Profile: GPA ${p.gpa}, Aiming for ${p.major}. Today's Log: Sleep ${sleep}h, Study ${study}h, Game ${game}h, Mood ${mood}/10. Task: Give a 1-paragraph summary of their state and provide 3 specific advice according to his target and his other data for tomorrow and the future. You may use bullet points to make it more readable.`;
 }
 
 async function fetchUserProfile() {
