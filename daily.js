@@ -3,7 +3,7 @@ import './supabaseClient.js';
 const supabase = window.supabaseClient;
 
 // Backend proxy URL for AI analysis
-const PROXY_URL = 'https://moodstudy.top:5000/api/analyze';
+const PROXY_URL = '/api/analyze';
 
 // A. State Management
 const dailyData = { sleep_hours: 0, study_hours: 0, game_hours: 0, mood: 5 };
