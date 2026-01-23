@@ -221,6 +221,8 @@ async function hasMasterPlan(user) {
 function showOnboarding(step = 1) {
   if (!els.onboardingOverlay) return;
 
+  // Ensure display is set before removing hidden class
+  els.onboardingOverlay.style.display = 'grid';
   els.onboardingOverlay.classList.remove('hidden');
   
   if (step === 1) {
@@ -260,13 +262,16 @@ function hideOnboarding() {
         ease: 'power2.in',
         onComplete: () => {
           els.onboardingOverlay?.classList.add('hidden');
+          els.onboardingOverlay.style.display = 'none';
         }
       });
     } else {
       els.onboardingOverlay?.classList.add('hidden');
+      els.onboardingOverlay.style.display = 'none';
     }
   } else {
     els.onboardingOverlay?.classList.add('hidden');
+    els.onboardingOverlay.style.display = 'none';
   }
 }
 
@@ -357,6 +362,12 @@ async function init() {
   await handleLogout();
   wireOnboarding();
 
+  // Ensure overlay starts hidden (for browser compatibility)
+  if (els.onboardingOverlay) {
+    els.onboardingOverlay.classList.add('hidden');
+    els.onboardingOverlay.style.display = 'none';
+  }
+
   // Check URL parameter for onboarding step
   const urlParams = new URLSearchParams(window.location.search);
   const onboardingStep = urlParams.get('onboarding');
@@ -372,6 +383,12 @@ async function init() {
   } else if (!hasPlan) {
     // Show onboarding step 1 (Master Plan)
     showOnboarding(1);
+  } else {
+    // Explicitly ensure overlay is hidden if user has completed Master Plan
+    if (els.onboardingOverlay) {
+      els.onboardingOverlay.classList.add('hidden');
+      els.onboardingOverlay.style.display = 'none';
+    }
   }
 
   await Promise.allSettled([gateDailyCheckin(user), loadProfileBadge(), loadLatestInsight()]);
