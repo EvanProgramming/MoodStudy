@@ -3,7 +3,40 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mood Study — Daily Check-in</title>
+    
+    <!-- Primary Meta Tags -->
+    <title>Daily Check-in | Mood Study - Track Your Daily Mood & Habits</title>
+    <meta name="title" content="Daily Check-in | Mood Study - Track Your Daily Mood & Habits">
+    <meta name="description" content="Log your daily sleep, mood, and habits. Get AI-powered analysis of your emotional patterns to optimize your academic performance.">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="canonical" href="https://moodstudy.app/daily.html">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://moodstudy.app/daily.html">
+    <meta property="og:title" content="Daily Check-in | Mood Study">
+    <meta property="og:description" content="Log your daily sleep, mood, and habits. Get AI-powered analysis of your emotional patterns.">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary">
+    <meta property="twitter:url" content="https://moodstudy.app/daily.html">
+    <meta property="twitter:title" content="Daily Check-in | Mood Study">
+    <meta property="twitter:description" content="Log your daily sleep, mood, and habits. Get AI-powered analysis of your emotional patterns.">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Daily Check-in | Mood Study",
+      "description": "Log your daily sleep, mood, and habits. Get AI-powered analysis of your emotional patterns.",
+      "url": "https://moodstudy.app/daily.html",
+      "isPartOf": {
+        "@type": "WebApplication",
+        "name": "Mood Study"
+      }
+    }
+    </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -24,9 +57,9 @@
     <div class="bg-effects" aria-hidden="true"></div>
 
     <!-- Progress Bar -->
-    <div class="progress" aria-hidden="true">
-      <div id="progress-bar" class="progress__bar"></div>
-    </div>
+    <nav class="progress" aria-label="Progress indicator" aria-hidden="true">
+      <div id="progress-bar" class="progress__bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+    </nav>
 
     <main class="viewport" aria-label="Daily check-in">
       <section id="question-container" class="glass" aria-live="polite"></section>

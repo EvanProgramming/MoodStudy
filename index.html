@@ -3,7 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mood Study - Decode Your Rhythm</title>
+    
+    <!-- Primary Meta Tags -->
+    <title>Mood Study - Decode Your Rhythm | Transform Mood Signals into Academic Success</title>
+    <meta name="title" content="Mood Study - Decode Your Rhythm | Transform Mood Signals into Academic Success">
+    <meta name="description" content="Transform chaotic mood signals into actionable rhythms. Build personalized academic roadmaps that adapt to your emotional patterns and optimize your study schedule based on your mental state.">
+    <meta name="keywords" content="mood tracking, academic planning, study optimization, mental health, student productivity, mood analysis, academic goals">
+    <meta name="author" content="Mood Study">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://moodstudy.app/">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://moodstudy.app/">
+    <meta property="og:title" content="Mood Study - Decode Your Rhythm">
+    <meta property="og:description" content="Transform chaotic mood signals into actionable rhythms. Build personalized academic roadmaps that adapt to your emotional patterns.">
+    <meta property="og:site_name" content="Mood Study">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://moodstudy.app/">
+    <meta property="twitter:title" content="Mood Study - Decode Your Rhythm">
+    <meta property="twitter:description" content="Transform chaotic mood signals into actionable rhythms. Build personalized academic roadmaps that adapt to your emotional patterns.">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Mood Study",
+      "description": "Transform chaotic mood signals into actionable rhythms. Build personalized academic roadmaps that adapt to your emotional patterns and optimize your study schedule.",
+      "url": "https://moodstudy.app/",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "Mood tracking and pattern recognition",
+        "Academic planning and goal setting",
+        "Schedule optimization based on emotional patterns",
+        "Predictive workload management"
+      ]
+    }
+    </script>
+    
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,10 +58,14 @@
 </head>
 <body>
     <!-- Three.js Canvas Container -->
-    <div id="canvas-container"></div>
+    <div id="canvas-container" aria-hidden="true"></div>
+    
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-link" style="position: absolute; left: -9999px; z-index: 999;">Skip to main content</a>
 
     <!-- Hero Section -->
-    <section class="section section-hero" data-section="hero">
+    <main id="main-content">
+    <section class="section section-hero" data-section="hero" aria-label="Hero section">
         <div class="content">
             <h1 class="hero-title" id="hero-title">MOOD STUDY</h1>
             <p class="hero-subtitle">Transform chaotic mood signals into actionable rhythms</p>
@@ -31,10 +81,10 @@
     </section>
 
     <!-- Signals Section -->
-    <section class="section section-signals" data-section="signals">
+    <section class="section section-signals" data-section="signals" aria-labelledby="signals-title">
         <div class="content-grid">
-            <div class="content-card glass-card">
-                <h2 class="section-title">The Invisible Signals</h2>
+            <article class="content-card glass-card">
+                <h2 id="signals-title" class="section-title">The Invisible Signals</h2>
                 <p class="section-text">Your daily emotions create patterns that, when decoded, reveal the rhythm of your mental state. Our analysis transforms these invisible signals into visible pathways.</p>
                 <div class="data-visualization">
                     <div class="viz-item">
@@ -50,15 +100,15 @@
                         <div class="viz-bar" style="width: 91%"></div>
                     </div>
                 </div>
-            </div>
+            </article>
         </div>
     </section>
 
     <!-- Planning Section -->
-    <section class="section section-planning" data-section="planning">
+    <section class="section section-planning" data-section="planning" aria-labelledby="planning-title">
         <div class="content-grid reverse">
-            <div class="content-card glass-card">
-                <h2 class="section-title">Construct Your Path</h2>
+            <article class="content-card glass-card">
+                <h2 id="planning-title" class="section-title">Construct Your Path</h2>
                 <p class="section-text">Build a personalized roadmap that adapts to your emotional patterns and academic goals.</p>
                 <ul class="goals-list">
                     <li class="goal-item">
@@ -78,15 +128,17 @@
                         <span class="goal-text">Predictive workload management</span>
                     </li>
                 </ul>
-            </div>
+            </article>
         </div>
     </section>
 
+    </main>
+    
     <!-- Footer -->
-    <footer class="footer" data-section="footer">
-        <button class="magnetic-btn" id="start-btn">
+    <footer class="footer" data-section="footer" role="contentinfo">
+        <button class="magnetic-btn" id="start-btn" type="button" aria-label="Start syncing your mood data">
             <span class="btn-text">Start Syncing</span>
-            <span class="btn-glow"></span>
+            <span class="btn-glow" aria-hidden="true"></span>
         </button>
     </footer>
 

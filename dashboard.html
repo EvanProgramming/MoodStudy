@@ -3,7 +3,40 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mood Study — Dashboard</title>
+    
+    <!-- Primary Meta Tags -->
+    <title>Dashboard | Mood Study - Your Academic Rhythm Overview</title>
+    <meta name="title" content="Dashboard | Mood Study - Your Academic Rhythm Overview">
+    <meta name="description" content="View your academic rhythm status, daily insights, and personalized strategies. Access your mood tracking data and academic planning tools.">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="canonical" href="https://moodstudy.app/dashboard.html">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://moodstudy.app/dashboard.html">
+    <meta property="og:title" content="Dashboard | Mood Study">
+    <meta property="og:description" content="View your academic rhythm status, daily insights, and personalized strategies.">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary">
+    <meta property="twitter:url" content="https://moodstudy.app/dashboard.html">
+    <meta property="twitter:title" content="Dashboard | Mood Study">
+    <meta property="twitter:description" content="View your academic rhythm status, daily insights, and personalized strategies.">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Dashboard | Mood Study",
+      "description": "View your academic rhythm status, daily insights, and personalized strategies.",
+      "url": "https://moodstudy.app/dashboard.html",
+      "isPartOf": {
+        "@type": "WebApplication",
+        "name": "Mood Study"
+      }
+    }
+    </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -22,18 +55,20 @@
   <body>
     <div class="bg-effects" aria-hidden="true"></div>
 
-    <header class="topbar">
-      <a class="logo" href="dashboard.html" aria-label="Mood Study Dashboard">
-        <span class="logo__mark" aria-hidden="true"></span>
-        <span class="logo__text">Mood Study</span>
-      </a>
+    <header class="topbar" role="banner">
+      <nav aria-label="Main navigation">
+        <a class="logo" href="dashboard.html" aria-label="Mood Study Dashboard">
+          <span class="logo__mark" aria-hidden="true"></span>
+          <span class="logo__text">Mood Study</span>
+        </a>
+      </nav>
 
-      <button id="logout-btn" class="logout-btn" type="button">
+      <button id="logout-btn" class="logout-btn" type="button" aria-label="Log out of your account">
         Logout
       </button>
     </header>
 
-    <main class="container">
+    <main class="container" role="main">
       <section class="hero glass" aria-label="Greeting">
         <div class="hero__copy">
           <h1 class="hero__title">
