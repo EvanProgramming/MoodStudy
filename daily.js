@@ -529,7 +529,7 @@ Then, give ONE powerful, specific suggestion for tomorrow.
 
 **Tone:**
 - ${toneGuidance}
-- DO NOT use bullet points or "Status/Action" labels. Just talk naturally.
+- You can use bullet points or "Status/Action" labels. Just talk naturally.
 [/INST]`;
 }
 
