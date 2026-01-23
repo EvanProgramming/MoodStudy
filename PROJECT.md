@@ -1,0 +1,9 @@
+Mood Study is a web-based academic planning application that helps students optimize study schedules by analyzing mood patterns, learning behaviors, and daily habits. It combines mood tracking, academic goal planning, and AI-powered insights to create personalized study roadmaps.
+
+The problem it solves is that students struggle with irregular study schedules, burnout, and lack of awareness about how emotional state and habits affect academic performance. Without data-driven insights, it's difficult to create effective study plans that account for personal rhythms.
+
+Mood Study tracks daily mood ratings, emotional tags, study hours, focus levels, sleep patterns, and routines. The platform uses AI analysis to identify patterns and correlations, then generates personalized recommendations for study scheduling, workload management, and habit adjustments. It integrates mood data with long-term academic goals like GPA targets, AP courses, and university aspirations.
+
+To use Mood Study, access the live website at moodstudy.app or set it up locally. For local setup, clone the repository, copy config.example.js to config.js and fill in your Supabase URL, API key, and Hugging Face token. Set up a Supabase database and run the provided SQL schema. Run the application using a local web server. After creating an account, complete your master plan with grade level, GPA, target major, and AP courses. Then log daily mood ratings, emotional states, sleep times, and study hours. The dashboard displays insights and recommendations, and you can access features like focus mode with Pomodoro timer, GPA simulator, visual analytics, and event tracking.
+
+Technologies used include HTML5 and CSS3 for frontend structure, vanilla JavaScript ES6+ for application logic, Three.js for 3D graphics, GSAP for animations, Lenis for smooth scrolling, Supabase for backend authentication and database operations, and Hugging Face API for AI-powered insights and recommendations.
