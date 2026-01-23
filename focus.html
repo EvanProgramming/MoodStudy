@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Focus Mode - Mood Study</title>
+    <link rel="icon" type="image/png" href="assests/moodstudy.png">
+    <link rel="stylesheet" href="focus.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <!-- Three.js Canvas Container -->
+    <div id="canvas-container" aria-hidden="true"></div>
+    
+    <!-- Main Focus Interface -->
+    <main class="focus-main">
+        <!-- Status Pill -->
+        <div class="status-pill" id="status-pill">
+            <span class="status-text" id="status-text">FOCUS</span>
+        </div>
+        
+        <!-- Timer Display -->
+        <div class="timer-container">
+            <button class="timer-display" id="timer-display" type="button" aria-label="Timer display - click to edit duration">
+                <span class="timer-text" id="timer-text">25:00</span>
+            </button>
+        </div>
+        
+        <!-- Controls -->
+        <div class="controls">
+            <button class="control-btn" id="play-pause-btn" type="button" aria-label="Play/Pause timer">
+                <svg class="control-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path id="play-icon" d="M8 5v14l11-7z"/>
+                    <path id="pause-icon" class="icon-hidden" d="M6 4h4v16H6zm8 0h4v16h-4z"/>
+                </svg>
+            </button>
+            <button class="control-btn" id="stop-btn" type="button" aria-label="Stop timer">
+                <svg class="control-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="6" y="6" width="12" height="12" rx="1"/>
+                </svg>
+            </button>
+            <button class="control-btn" id="fullscreen-btn" type="button" aria-label="Toggle fullscreen">
+                <svg class="control-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path id="fullscreen-enter" d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+                    <path id="fullscreen-exit" class="icon-hidden" d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+                </svg>
+            </button>
+        </div>
+        
+        <!-- Duration Editor (Hidden by default) -->
+        <div class="duration-editor hidden" id="duration-editor">
+            <div class="editor-card">
+                <h3 class="editor-title">Set Duration</h3>
+                <div class="editor-inputs">
+                    <div class="input-group">
+                        <label for="focus-duration">Focus (minutes)</label>
+                        <input type="number" id="focus-duration" min="1" max="60" value="25">
+                    </div>
+                    <div class="input-group">
+                        <label for="break-duration">Break (minutes)</label>
+                        <input type="number" id="break-duration" min="1" max="30" value="5">
+                    </div>
+                </div>
+                <div class="editor-actions">
+                    <button class="editor-btn" id="save-duration" type="button">Save</button>
+                    <button class="editor-btn editor-btn--ghost" id="cancel-duration" type="button">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Session Complete Overlay -->
+    <div class="overlay hidden" id="session-overlay">
+        <div class="overlay-card">
+            <h2 class="overlay-title">Session Complete</h2>
+            <p class="overlay-text" id="session-summary">Great work! Your focus session has been recorded.</p>
+            <div class="overlay-actions">
+                <button class="overlay-btn" id="overlay-close" type="button">Continue</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Toast Notification -->
+    <div class="toast hidden" id="toast">
+        <span class="toast-text" id="toast-text"></span>
+    </div>
+    
+    <!-- Dependencies -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://esm.sh/three@0.163.0"
+        }
+    }
+    </script>
+    <script type="module" src="supabaseClient.js"></script>
+    <script type="module" src="focus.js"></script>
+</body>
+</html>

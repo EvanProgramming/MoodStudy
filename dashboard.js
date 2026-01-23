@@ -11,6 +11,11 @@ const els = {
   hero: document.querySelector('.hero'),
   cards: document.querySelectorAll('.action-card'),
   insight: document.querySelector('.insight'),
+  onboardingOverlay: document.getElementById('onboarding-overlay'),
+  onboardingStep1: document.getElementById('onboarding-step-1'),
+  onboardingStep2: document.getElementById('onboarding-step-2'),
+  onboardingMasterPlanBtn: document.getElementById('onboarding-master-plan-btn'),
+  onboardingDismissBtn: document.getElementById('onboarding-dismiss-btn'),
 };
 
 function safeText(v, fallback = '—') {
@@ -191,6 +196,108 @@ async function gateDailyCheckin(user) {
   }
 }
 
+async function hasMasterPlan(user) {
+  const { data, error } = await supabase
+    .from('user_data')
+    .select('grade, gpa, major')
+    .eq('user_id', user.id)
+    .maybeSingle();
+
+  if (error) {
+    console.warn('user_data check error:', error.message || error);
+    return false;
+  }
+
+  // Consider Master Plan complete if user has grade, gpa, and major
+  if (!data) return false;
+  
+  const hasGrade = Boolean(data.grade);
+  const hasGpa = typeof data.gpa === 'number' && data.gpa > 0;
+  const hasMajor = Boolean(data.major && data.major.trim());
+
+  return hasGrade && hasGpa && hasMajor;
+}
+
+function showOnboarding(step = 1) {
+  if (!els.onboardingOverlay) return;
+
+  els.onboardingOverlay.classList.remove('hidden');
+  
+  if (step === 1) {
+    els.onboardingStep1?.classList.remove('hidden');
+    els.onboardingStep2?.classList.add('hidden');
+  } else if (step === 2) {
+    els.onboardingStep1?.classList.add('hidden');
+    els.onboardingStep2?.classList.remove('hidden');
+  }
+
+  // Animate in
+  const gsap = window.gsap;
+  if (gsap && !prefersReducedMotion()) {
+    const card = els.onboardingOverlay?.querySelector('.onboarding-card');
+    if (card) {
+      gsap.fromTo(
+        card,
+        { opacity: 0, y: 20, scale: 0.96 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: 'power3.out' }
+      );
+    }
+  }
+}
+
+function hideOnboarding() {
+  if (!els.onboardingOverlay) return;
+  
+  const gsap = window.gsap;
+  if (gsap && !prefersReducedMotion()) {
+    const card = els.onboardingOverlay?.querySelector('.onboarding-card');
+    if (card) {
+      gsap.to(card, {
+        opacity: 0,
+        y: -10,
+        scale: 0.98,
+        duration: 0.3,
+        ease: 'power2.in',
+        onComplete: () => {
+          els.onboardingOverlay?.classList.add('hidden');
+        }
+      });
+    } else {
+      els.onboardingOverlay?.classList.add('hidden');
+    }
+  } else {
+    els.onboardingOverlay?.classList.add('hidden');
+  }
+}
+
+function wireOnboarding() {
+  if (!els.onboardingMasterPlanBtn || !els.onboardingDismissBtn) return;
+
+  // Navigate to Master Plan
+  els.onboardingMasterPlanBtn.addEventListener('click', () => {
+    window.location.href = 'profile.html';
+  });
+
+  // Dismiss onboarding (step 2)
+  els.onboardingDismissBtn.addEventListener('click', () => {
+    hideOnboarding();
+  });
+
+  // Close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && els.onboardingOverlay && !els.onboardingOverlay.classList.contains('hidden')) {
+      // Only allow closing on step 2, not step 1 (force them to go to Master Plan)
+      if (els.onboardingStep2 && !els.onboardingStep2.classList.contains('hidden')) {
+        hideOnboarding();
+      }
+    }
+  });
+}
+
+function prefersReducedMotion() {
+  return Boolean(window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches);
+}
+
 // ==========================================
 // CUSTOM CURSOR
 // ==========================================
@@ -248,6 +355,24 @@ async function init() {
   }
 
   await handleLogout();
+  wireOnboarding();
+
+  // Check URL parameter for onboarding step
+  const urlParams = new URLSearchParams(window.location.search);
+  const onboardingStep = urlParams.get('onboarding');
+
+  // Check if user has completed Master Plan
+  const hasPlan = await hasMasterPlan(user);
+  
+  if (onboardingStep === 'step2' && hasPlan) {
+    // User just completed Master Plan, show step 2
+    showOnboarding(2);
+    // Clean up URL
+    window.history.replaceState({}, '', 'dashboard.html');
+  } else if (!hasPlan) {
+    // Show onboarding step 1 (Master Plan)
+    showOnboarding(1);
+  }
 
   await Promise.allSettled([gateDailyCheckin(user), loadProfileBadge(), loadLatestInsight()]);
 

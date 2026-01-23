@@ -144,6 +144,34 @@
           </div>
           <span class="action-card__glow" aria-hidden="true"></span>
         </a>
+
+        <a class="action-card glass" id="card-focus" href="focus.html">
+          <div class="action-card__icon" aria-hidden="true">
+            <!-- Timer / Focus -->
+            <svg viewBox="0 0 24 24" fill="none">
+              <circle
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="2"
+              />
+              <path
+                d="M12 6v6l4 2"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+          <div class="action-card__body">
+            <h2 class="action-card__title">Focus Mode</h2>
+            <p class="action-card__text">Pomodoro Timer for Deep Work.</p>
+            <span class="action-card__cta">Open →</span>
+          </div>
+          <span class="action-card__glow" aria-hidden="true"></span>
+        </a>
       </section>
 
       <section class="insight glass" aria-labelledby="insight-title">
@@ -154,6 +182,43 @@
         <pre id="insight-text" class="insight__terminal">Fetching latest strategy…</pre>
       </section>
     </main>
+
+    <!-- Onboarding Overlay -->
+    <div id="onboarding-overlay" class="onboarding-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="onboarding-title">
+      <div class="onboarding-card glass">
+        <div class="onboarding-header">
+          <h2 id="onboarding-title" class="onboarding-title">Welcome to Mood Study</h2>
+          <p class="onboarding-subtitle">Let's get you started on your academic journey</p>
+        </div>
+        
+        <div class="onboarding-content">
+          <div id="onboarding-step-1" class="onboarding-step">
+            <div class="onboarding-step__icon">🎯</div>
+            <h3 class="onboarding-step__title">Step 1: Complete Your Master Plan</h3>
+            <p class="onboarding-step__text">
+              First, we need to understand your academic goals. Fill out your Master Plan with your grade level, GPA, target major, and AP courses. This helps us personalize your experience and provide better insights.
+            </p>
+            <button id="onboarding-master-plan-btn" class="btn btn--primary onboarding-btn" type="button">
+              Go to Master Plan →
+            </button>
+          </div>
+
+          <div id="onboarding-step-2" class="onboarding-step hidden">
+            <div class="onboarding-step__icon">📊</div>
+            <h3 class="onboarding-step__title">Step 2: Daily Log</h3>
+            <p class="onboarding-step__text">
+              Once your Master Plan is set up, you'll log your daily signals at the end of each day. Track your sleep, study hours, mood, and more. This data helps us analyze patterns and provide personalized recommendations.
+            </p>
+            <p class="onboarding-step__hint">
+              <strong>Remember:</strong> Fill out your Daily Log at the end of each day for the best insights.
+            </p>
+            <button id="onboarding-dismiss-btn" class="btn btn--primary onboarding-btn" type="button">
+              Got it, let's go →
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <script type="module" src="dashboard.js"></script>
   </body>

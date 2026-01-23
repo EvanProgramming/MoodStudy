@@ -184,7 +184,7 @@ function applyProfileToForm(row) {
   setSelectedTags(row?.ap_courses ?? []);
 }
 
-async function saveProfile(user) {
+async function saveProfile(user, isNewProfile = false) {
   if (!els.saveBtn) return;
   els.saveBtn.disabled = true;
   els.saveBtn.classList.remove('is-saved');
@@ -216,7 +216,12 @@ async function saveProfile(user) {
     showToast('Saved successfully.');
 
     window.setTimeout(() => {
-      window.location.replace('dashboard.html');
+      if (isNewProfile) {
+        // Redirect with flag to show step 2 of onboarding
+        window.location.replace('dashboard.html?onboarding=step2');
+      } else {
+        window.location.replace('dashboard.html');
+      }
     }, 1000);
   } catch (err) {
     console.warn('Profile save error:', err?.message || err);
@@ -470,7 +475,9 @@ async function init() {
   if (row) applyProfileToForm(row);
 
   if (els.saveBtn) {
-    els.saveBtn.addEventListener('click', () => void saveProfile(user));
+    // Store whether this is a new profile for use in saveProfile
+    const isNewProfile = !row;
+    els.saveBtn.addEventListener('click', () => void saveProfile(user, isNewProfile));
   }
 
   animateIn();
