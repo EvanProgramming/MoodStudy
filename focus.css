@@ -36,6 +36,50 @@ body {
     pointer-events: none;
 }
 
+/* Header */
+.focus-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: flex-start;
+    pointer-events: none;
+}
+
+.back-to-dashboard {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    background: rgba(5, 5, 5, 0.7);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    pointer-events: all;
+}
+
+.back-to-dashboard:hover {
+    background: rgba(5, 5, 5, 0.85);
+    border-color: rgba(0, 255, 255, 0.4);
+    color: rgba(0, 255, 255, 0.95);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+    transform: translateY(-1px);
+}
+
+.back-to-dashboard svg {
+    width: 18px;
+    height: 18px;
+}
+
 /* Main Focus Interface */
 .focus-main {
     position: relative;
@@ -394,6 +438,24 @@ body {
 
 /* Responsive */
 @media (max-width: 768px) {
+    .focus-header {
+        padding: 0.75rem 1rem;
+    }
+    
+    .back-to-dashboard {
+        padding: 0.625rem 1rem;
+        font-size: 0.85rem;
+    }
+    
+    .back-to-dashboard svg {
+        width: 16px;
+        height: 16px;
+    }
+    
+    .back-to-dashboard span {
+        display: none; /* Hide text on mobile, show only icon */
+    }
+    
     .focus-main {
         gap: 2rem;
         padding: 1rem;
