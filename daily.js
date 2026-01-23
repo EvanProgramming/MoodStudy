@@ -483,24 +483,53 @@ function normalizeProfile(profile) {
   };
 }
 
-function buildPrompt({ profile, log }) {
+function buildPrompt({ profile, log, milestonesString, milestones }) {
   const p = normalizeProfile(profile);
   const sleep = formatHours(log.sleep_hours);
   const study = formatHours(log.study_hours);
   const game = formatHours(log.game_hours);
   const mood = clamp(safeNum(log.mood, 5), 1, 10);
 
-  return `[INST] You are a concise academic coach.
-Context: Grade ${p.grade}, GPA ${p.gpa}, Goal: ${p.major}.
-Today: Sleep ${sleep}h, Study ${study}h, Game ${game}h, Mood ${mood}/10.
+  // Determine tone based on context
+  let toneGuidance = '';
+  
+  // Check if any deadline is within 7 days
+  const hasUrgentDeadline = milestones && milestones.length > 0 && milestones.some(milestone => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const dueDate = new Date(milestone.due_date);
+    dueDate.setHours(0, 0, 0, 0);
+    const diffTime = dueDate - today;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays >= 0 && diffDays <= 7;
+  });
 
-Output strict JSON-like structure (but plain text) with 3 bullet points.
-Constraint: Maximum 60 words total.
+  // Determine tone based on multiple factors
+  if (hasUrgentDeadline) {
+    toneGuidance = 'Urgent, motivating, "Push through".';
+  } else if (mood <= 4) {
+    toneGuidance = 'Empathetic, "Take care of yourself".';
+  } else if (parseFloat(game) > 3 && parseFloat(study) < 2) {
+    toneGuidance = 'Tough love, direct but kind.';
+  } else {
+    toneGuidance = 'Encouraging and balanced.';
+  }
 
-Response Format:
-• ⚡ **Pulse**: [1 sentence analysis of balance]
-• 🎯 **Tactic**: [1 specific action for tomorrow]
-• 🔮 **Path**: [Link today's effort to ${p.major}]
+  return `[INST] You are "Mood Study", a smart and empathetic academic companion.
+You are talking to a student who wants to study ${p.major}.
+
+**The Context:**
+- Upcoming Deadlines: ${milestonesString || 'Clear horizon'}.
+- Today's Stats: Slept ${sleep}h, Studied ${study}h, Played ${game}h.
+- Mood: ${mood}/10.
+
+**Your Goal:**
+Write a short, natural paragraph (2-3 sentences) analyzing their day.
+Then, give ONE powerful, specific suggestion for tomorrow.
+
+**Tone:**
+- ${toneGuidance}
+- DO NOT use bullet points or "Status/Action" labels. Just talk naturally.
 [/INST]`;
 }
 
@@ -510,6 +539,56 @@ async function fetchUserProfile() {
     .select('grade, gpa, major, ap_courses')
     .limit(1)
     .maybeSingle();
+}
+
+async function fetchUpcomingMilestones(userId) {
+  try {
+    const today = new Date().toISOString().split('T')[0];
+    
+    const { data, error } = await supabase
+      .from('milestones')
+      .select('title, due_date')
+      .eq('user_id', userId)
+      .eq('status', 'active')
+      .gte('due_date', today)
+      .order('due_date', { ascending: true })
+      .limit(3);
+
+    if (error) {
+      console.warn('Error fetching milestones:', error);
+      return [];
+    }
+
+    return data || [];
+  } catch (err) {
+    console.warn('Error fetching milestones:', err);
+    return [];
+  }
+}
+
+function formatMilestonesString(milestones) {
+  if (!milestones || milestones.length === 0) {
+    return 'Clear horizon';
+  }
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  return milestones.map(milestone => {
+    const dueDate = new Date(milestone.due_date);
+    dueDate.setHours(0, 0, 0, 0);
+    
+    const diffTime = dueDate - today;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    
+    if (diffDays === 0) {
+      return `${milestone.title} (today)`;
+    } else if (diffDays === 1) {
+      return `${milestone.title} (in 1 day)`;
+    } else {
+      return `${milestone.title} (in ${diffDays} days)`;
+    }
+  }).join(', ');
 }
 
 async function saveAIResult({ userId, aiText }) {
@@ -542,7 +621,12 @@ async function callAI(prompt) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      inputs: prompt // Send the prompt string constructed earlier
+      inputs: prompt, // Send the prompt string constructed earlier
+      parameters: {
+        temperature: 0.85, // More creative/varied output
+        max_new_tokens: 250, // Allow more nuance in responses
+        return_full_text: false
+      }
     })
   });
 
@@ -680,6 +764,10 @@ async function finalizeAndGenerate() {
     if (profileRes.error) throw profileRes.error;
     profile = profileRes.data || null;
 
+    // Fetch upcoming milestones for AI context
+    const upcomingMilestones = await fetchUpcomingMilestones(userId);
+    const milestonesString = formatMilestonesString(upcomingMilestones);
+
     // 3) Verify AI Logic (only after save confirmed; use numeric values)
     const prompt = buildPrompt({
       profile,
@@ -689,6 +777,8 @@ async function finalizeAndGenerate() {
         game_hours: gameVal,
         mood: dailyData.mood,
       },
+      milestonesString,
+      milestones: upcomingMilestones,
     });
 
     try {

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Rhythm | Mood Study</title>
+    <link rel="icon" type="image/png" href="assests/moodstudy.png">
+    <link rel="stylesheet" href="history.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+</head>
+<body>
+    <div class="bg-effects" aria-hidden="true"></div>
+
+    <header class="topbar" role="banner">
+        <nav aria-label="Main navigation">
+            <a class="logo" href="dashboard.html" aria-label="Back to Dashboard">
+                <div class="logo-container">
+                    <img src="assests/moodstudy.png" alt="Mood Study Logo" class="nav-logo">
+                    <span class="logo-text">Your Rhythm</span>
+                </div>
+            </a>
+        </nav>
+        <a href="dashboard.html" class="back-link">← Dashboard</a>
+    </header>
+
+    <main class="container" role="main">
+        <!-- Chart 1: Mood Wave -->
+        <section class="chart-section glass" aria-labelledby="mood-chart-title">
+            <h2 id="mood-chart-title" class="chart-title">The Mood Wave</h2>
+            <p class="chart-subtitle">Your emotional pattern over the last 30 days</p>
+            <div class="chart-container">
+                <canvas id="mood-chart" aria-label="Mood score line chart"></canvas>
+            </div>
+        </section>
+
+        <!-- Chart 2: Balance Bar -->
+        <section class="chart-section glass" aria-labelledby="balance-chart-title">
+            <h2 id="balance-chart-title" class="chart-title">The Balance Bar</h2>
+            <p class="chart-subtitle">How you spent your 24 hours</p>
+            <div class="chart-container">
+                <canvas id="balance-chart" aria-label="Sleep, study, and game hours stacked bar chart"></canvas>
+            </div>
+        </section>
+
+        <!-- Calendar Heatmap (Optional) -->
+        <section class="heatmap-section glass" aria-labelledby="heatmap-title">
+            <h2 id="heatmap-title" class="chart-title">Study Intensity Heatmap</h2>
+            <p class="chart-subtitle">Daily study hours visualized</p>
+            <div id="heatmap-container" class="heatmap-container">
+                <!-- Heatmap will be generated here -->
+            </div>
+        </section>
+
+        <!-- Empty State -->
+        <div id="empty-state" class="empty-state glass hidden">
+            <div class="empty-state-content">
+                <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+                </svg>
+                <h3 class="empty-title">No Data Yet</h3>
+                <p class="empty-text">Start logging your daily signals to see your rhythm visualized here.</p>
+                <a href="daily.html" class="empty-link">Log Your First Day →</a>
+            </div>
+        </div>
+    </main>
+
+    <script type="module" src="supabaseClient.js"></script>
+    <script type="module" src="history.js"></script>
+</body>
+</html>

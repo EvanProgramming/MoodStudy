@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Horizon | Mood Study</title>
+    <link rel="icon" type="image/png" href="assests/moodstudy.png">
+    <link rel="stylesheet" href="events.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+</head>
+<body>
+    <div class="bg-effects" aria-hidden="true"></div>
+
+    <header class="topbar" role="banner">
+        <nav aria-label="Main navigation">
+            <a class="logo" href="dashboard.html" aria-label="Back to Dashboard">
+                <div class="logo-container">
+                    <img src="assests/moodstudy.png" alt="Mood Study Logo" class="nav-logo">
+                    <span class="logo-text">Event Horizon</span>
+                </div>
+            </a>
+        </nav>
+        <div class="header-actions">
+            <button id="add-mission-btn" class="btn-add-mission" type="button" aria-label="Add new mission">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 5v14M5 12h14"/>
+                </svg>
+                Add Mission
+            </button>
+            <a href="dashboard.html" class="back-link">← Dashboard</a>
+        </div>
+    </header>
+
+    <main class="container" role="main">
+        <!-- Missions Grid -->
+        <div id="missions-grid" class="missions-grid" role="list">
+            <!-- Mission cards will be dynamically injected here -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="empty-state" class="empty-state glass hidden">
+            <div class="empty-state-content">
+                <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                </svg>
+                <h3 class="empty-title">No Missions Detected</h3>
+                <p class="empty-text">Add your first deadline or milestone to begin tracking.</p>
+                <button id="empty-add-btn" class="empty-link" type="button">Add Mission →</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add Mission Modal -->
+    <div id="add-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal-backdrop" aria-label="Close modal"></div>
+        <div class="modal-content glass">
+            <div class="modal-header">
+                <h2 id="modal-title" class="modal-title">New Mission</h2>
+                <button class="modal-close" type="button" aria-label="Close modal">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6L6 18M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <form id="mission-form" class="modal-form">
+                <div class="form-group">
+                    <label for="mission-name" class="form-label">Mission Name</label>
+                    <input 
+                        type="text" 
+                        id="mission-name" 
+                        class="form-input" 
+                        placeholder="e.g., AP Physics Exam"
+                        required
+                        aria-required="true"
+                    >
+                </div>
+                <div class="form-group">
+                    <label for="mission-date" class="form-label">Due Date</label>
+                    <input 
+                        type="date" 
+                        id="mission-date" 
+                        class="form-input" 
+                        required
+                        aria-required="true"
+                    >
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="mission-category" class="form-label">Category</label>
+                        <select id="mission-category" class="form-select" required aria-required="true">
+                            <option value="">Select...</option>
+                            <option value="Exam">Exam</option>
+                            <option value="Application">Application</option>
+                            <option value="Project">Project</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="mission-priority" class="form-label">Priority</label>
+                        <select id="mission-priority" class="form-select" required aria-required="true">
+                            <option value="">Select...</option>
+                            <option value="High">High</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Low">Low</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel" id="cancel-btn">Cancel</button>
+                    <button type="submit" class="btn-submit">Launch Mission</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module" src="supabaseClient.js"></script>
+    <script type="module" src="events.js"></script>
+</body>
+</html>

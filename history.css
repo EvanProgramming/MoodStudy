@@ -1,0 +1,355 @@
+/* Your Rhythm - Mood & Habit Tracker */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+}
+
+body {
+    min-height: 100vh;
+    background: #050505;
+    color: rgba(255, 255, 255, 0.92);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    line-height: 1.4;
+    overflow-x: hidden;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button {
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+:focus-visible {
+    outline: 2px solid rgba(0, 255, 255, 0.9);
+    outline-offset: 3px;
+}
+
+/* Background effects */
+.bg-effects {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background:
+        radial-gradient(1200px 600px at 15% 10%, rgba(0, 255, 255, 0.12), transparent 60%),
+        radial-gradient(900px 500px at 85% 20%, rgba(255, 0, 255, 0.10), transparent 55%),
+        radial-gradient(1000px 650px at 60% 100%, rgba(100, 200, 255, 0.10), transparent 60%);
+    filter: saturate(1.1);
+}
+
+.bg-effects::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0.12;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+    background-size: 56px 56px;
+    -webkit-mask-image: radial-gradient(closest-side at 50% 40%, rgba(0, 0, 0, 1), transparent 85%);
+    mask-image: radial-gradient(closest-side at 50% 40%, rgba(0, 0, 0, 1), transparent 85%);
+}
+
+/* Topbar */
+.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.1rem 1.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(5, 5, 5, 0.72);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+}
+
+.logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.nav-logo {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+}
+
+.logo-text {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+.back-link {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+    transition: color 0.2s ease;
+}
+
+.back-link:hover {
+    color: rgba(0, 255, 255, 0.9);
+}
+
+/* Container */
+.container {
+    position: relative;
+    z-index: 1;
+    width: min(1400px, 92vw);
+    margin: 0 auto;
+    padding: 2rem 0 3.5rem;
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: 1fr;
+}
+
+/* Glass base */
+.glass {
+    position: relative;
+    border-radius: 22px;
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    background: rgba(255, 255, 255, 0.04);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    box-shadow:
+        0 18px 70px rgba(0, 0, 0, 0.55),
+        0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+}
+
+.glass::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: 24px;
+    background: linear-gradient(
+        135deg,
+        rgba(0, 255, 255, 0.35),
+        rgba(255, 0, 255, 0.18),
+        rgba(0, 255, 255, 0.12)
+    );
+    filter: blur(18px);
+    opacity: 0.25;
+    z-index: -1;
+}
+
+/* Chart Sections */
+.chart-section {
+    padding: 2rem;
+}
+
+.chart-title {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
+}
+
+.chart-subtitle {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 1.5rem;
+}
+
+.chart-container {
+    position: relative;
+    height: 300px;
+    width: 100%;
+}
+
+.chart-container canvas {
+    max-height: 100%;
+}
+
+/* Heatmap Section */
+.heatmap-section {
+    padding: 2rem;
+}
+
+.heatmap-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(14px, 1fr));
+    gap: 4px;
+    padding: 1rem 0;
+}
+
+.heatmap-day {
+    aspect-ratio: 1;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all 0.2s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+.heatmap-day:hover {
+    border-color: rgba(0, 255, 255, 0.5);
+    transform: scale(1.2);
+    z-index: 10;
+}
+
+.heatmap-day.has-data {
+    border-color: rgba(0, 255, 255, 0.3);
+}
+
+.heatmap-day[data-intensity="0"] {
+    background: rgba(0, 255, 255, 0.1);
+}
+
+.heatmap-day[data-intensity="1"] {
+    background: rgba(0, 255, 255, 0.2);
+}
+
+.heatmap-day[data-intensity="2"] {
+    background: rgba(0, 255, 255, 0.35);
+}
+
+.heatmap-day[data-intensity="3"] {
+    background: rgba(0, 255, 255, 0.5);
+}
+
+.heatmap-day[data-intensity="4"] {
+    background: rgba(0, 255, 255, 0.7);
+}
+
+.heatmap-day[data-intensity="5"] {
+    background: rgba(0, 255, 255, 0.9);
+}
+
+.heatmap-tooltip {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-8px);
+    background: rgba(5, 5, 5, 0.95);
+    border: 1px solid rgba(0, 255, 255, 0.3);
+    border-radius: 6px;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    z-index: 100;
+}
+
+.heatmap-day:hover .heatmap-tooltip {
+    opacity: 1;
+}
+
+/* Empty State */
+.empty-state {
+    padding: 4rem 2rem;
+    text-align: center;
+}
+
+.empty-state.hidden {
+    display: none;
+}
+
+.empty-state-content {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.empty-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 1.5rem;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.empty-title {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+}
+
+.empty-text {
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.empty-link {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background: rgba(0, 255, 255, 0.1);
+    border: 1px solid rgba(0, 255, 255, 0.3);
+    border-radius: 12px;
+    color: rgba(0, 255, 255, 0.95);
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.empty-link:hover {
+    background: rgba(0, 255, 255, 0.15);
+    border-color: rgba(0, 255, 255, 0.5);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+    transform: translateY(-1px);
+}
+
+/* Responsive Grid - Desktop: 2 columns */
+@media (min-width: 1024px) {
+    .container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .heatmap-section {
+        grid-column: 1 / -1;
+    }
+
+    .chart-container {
+        height: 350px;
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        padding: 1.5rem 0 2.5rem;
+        gap: 1.25rem;
+    }
+
+    .chart-section,
+    .heatmap-section {
+        padding: 1.5rem;
+    }
+
+    .chart-title {
+        font-size: 1.5rem;
+    }
+
+    .chart-container {
+        height: 250px;
+    }
+
+    .heatmap-container {
+        grid-template-columns: repeat(auto-fill, minmax(12px, 1fr));
+        gap: 3px;
+    }
+}
