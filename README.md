@@ -125,8 +125,10 @@ MoodStudy/
 
 ## Demo Video
 
-<!-- TODO: Add demo video here -->
-[![Demo Video](https://via.placeholder.com/800x450?text=Demo+Video+Coming+Soon)](https://youtube.com/watch?v=VIDEO_ID)
+<video width="800" controls>
+  <source src="assests/Screen Recording 2026-01-23 at 18.09.11.mov" type="video/quicktime">
+  Your browser does not support the video tag.
+</video>
 
 ## Contributing
 
