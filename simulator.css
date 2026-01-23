@@ -1,0 +1,487 @@
+/* GPA Laboratory - Dark Lab/Dashboard Theme */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+}
+
+body {
+    min-height: 100vh;
+    background: #050505;
+    color: rgba(255, 255, 255, 0.92);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    line-height: 1.4;
+    overflow-x: hidden;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button {
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+:focus-visible {
+    outline: 2px solid rgba(0, 255, 255, 0.9);
+    outline-offset: 3px;
+}
+
+/* Background effects */
+.bg-effects {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background:
+        radial-gradient(1200px 600px at 15% 10%, rgba(0, 255, 255, 0.12), transparent 60%),
+        radial-gradient(900px 500px at 85% 20%, rgba(255, 0, 255, 0.10), transparent 55%),
+        radial-gradient(1000px 650px at 60% 100%, rgba(100, 200, 255, 0.10), transparent 60%);
+    filter: saturate(1.1);
+}
+
+.bg-effects::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0.12;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+    background-size: 56px 56px;
+    -webkit-mask-image: radial-gradient(closest-side at 50% 40%, rgba(0, 0, 0, 1), transparent 85%);
+    mask-image: radial-gradient(closest-side at 50% 40%, rgba(0, 0, 0, 1), transparent 85%);
+}
+
+/* Topbar */
+.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.1rem 1.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(5, 5, 5, 0.72);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+}
+
+.logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.nav-logo {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+}
+
+.logo-text {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+.back-link {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+    transition: color 0.2s ease;
+}
+
+.back-link:hover {
+    color: rgba(0, 255, 255, 0.9);
+}
+
+/* Container */
+.container {
+    position: relative;
+    z-index: 1;
+    width: min(1100px, 92vw);
+    margin: 0 auto;
+    padding: 2rem 0 3.5rem;
+    display: grid;
+    gap: 1.5rem;
+}
+
+/* Glass base */
+.glass {
+    position: relative;
+    border-radius: 22px;
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    background: rgba(255, 255, 255, 0.04);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    box-shadow:
+        0 18px 70px rgba(0, 0, 0, 0.55),
+        0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+}
+
+.glass::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: 24px;
+    background: linear-gradient(
+        135deg,
+        rgba(0, 255, 255, 0.35),
+        rgba(255, 0, 255, 0.18),
+        rgba(0, 255, 255, 0.12)
+    );
+    filter: blur(18px);
+    opacity: 0.25;
+    z-index: -1;
+}
+
+/* Hero GPA Display */
+.hero-section {
+    padding: 2rem 0;
+}
+
+.gpa-display {
+    text-align: center;
+    padding: 3rem 2rem;
+}
+
+.gpa-label {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+
+.gpa-value {
+    font-family: "JetBrains Mono", monospace;
+    font-size: clamp(4rem, 12vw, 8rem);
+    font-weight: 200;
+    color: rgba(0, 255, 255, 0.95);
+    text-shadow:
+        0 0 20px rgba(0, 255, 255, 0.5),
+        0 0 40px rgba(0, 255, 255, 0.3),
+        0 0 60px rgba(0, 255, 255, 0.2);
+    line-height: 1;
+    transition: all 0.5s ease;
+}
+
+.gpa-value.animating {
+    animation: pulse-glow 0.5s ease;
+}
+
+@keyframes pulse-glow {
+    0%, 100% {
+        text-shadow:
+            0 0 20px rgba(0, 255, 255, 0.5),
+            0 0 40px rgba(0, 255, 255, 0.3),
+            0 0 60px rgba(0, 255, 255, 0.2);
+    }
+    50% {
+        text-shadow:
+            0 0 30px rgba(0, 255, 255, 0.8),
+            0 0 60px rgba(0, 255, 255, 0.5),
+            0 0 90px rgba(0, 255, 255, 0.3);
+    }
+}
+
+.gpa-value.positive {
+    color: rgba(0, 255, 136, 0.95);
+    text-shadow:
+        0 0 20px rgba(0, 255, 136, 0.5),
+        0 0 40px rgba(0, 255, 136, 0.3),
+        0 0 60px rgba(0, 255, 136, 0.2);
+}
+
+.gpa-value.negative {
+    color: rgba(255, 80, 80, 0.95);
+    text-shadow:
+        0 0 20px rgba(255, 80, 80, 0.5),
+        0 0 40px rgba(255, 80, 80, 0.3),
+        0 0 60px rgba(255, 80, 80, 0.2);
+}
+
+/* Data Card */
+.data-card {
+    padding: 1.75rem 2rem;
+}
+
+.card-title {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.01em;
+}
+
+.data-grid {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.data-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.data-label {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 500;
+}
+
+.data-input {
+    padding: 0.875rem 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: rgba(255, 255, 255, 0.95);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+}
+
+.data-input:focus {
+    outline: none;
+    border-color: rgba(0, 255, 255, 0.6);
+    box-shadow: 0 0 0 3px rgba(0, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* Simulation Section */
+.simulation-section {
+    padding: 1.75rem 2rem;
+}
+
+.simulation-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.btn-add {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    background: rgba(0, 255, 255, 0.1);
+    border: 1px solid rgba(0, 255, 255, 0.3);
+    border-radius: 12px;
+    color: rgba(0, 255, 255, 0.95);
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.btn-add:hover {
+    background: rgba(0, 255, 255, 0.15);
+    border-color: rgba(0, 255, 255, 0.5);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+    transform: translateY(-1px);
+}
+
+.btn-add:active {
+    transform: translateY(0);
+}
+
+.btn-add svg {
+    width: 18px;
+    height: 18px;
+}
+
+.courses-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.course-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1.5fr auto;
+    gap: 1rem;
+    align-items: center;
+    padding: 1.25rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    transition: all 0.2s ease;
+}
+
+.course-row:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+.course-input {
+    padding: 0.75rem 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+}
+
+.course-input:focus {
+    outline: none;
+    border-color: rgba(0, 255, 255, 0.5);
+    box-shadow: 0 0 0 2px rgba(0, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.course-input--number {
+    font-family: "JetBrains Mono", monospace;
+    text-align: center;
+}
+
+.course-select {
+    padding: 0.75rem 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 0.95rem;
+    font-family: "JetBrains Mono", monospace;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.course-select:focus {
+    outline: none;
+    border-color: rgba(0, 255, 255, 0.5);
+    box-shadow: 0 0 0 2px rgba(0, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.btn-delete {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 80, 80, 0.1);
+    border: 1px solid rgba(255, 80, 80, 0.3);
+    border-radius: 8px;
+    color: rgba(255, 80, 80, 0.9);
+    transition: all 0.2s ease;
+}
+
+.btn-delete:hover {
+    background: rgba(255, 80, 80, 0.2);
+    border-color: rgba(255, 80, 80, 0.5);
+    transform: scale(1.1);
+}
+
+.btn-delete:active {
+    transform: scale(0.95);
+}
+
+.btn-delete svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* Result Section */
+.result-section {
+    padding: 2rem;
+    text-align: center;
+}
+
+.result-display {
+    margin-top: 1rem;
+}
+
+.result-value {
+    font-family: "JetBrains Mono", monospace;
+    font-size: clamp(3rem, 10vw, 6rem);
+    font-weight: 200;
+    color: rgba(0, 255, 255, 0.95);
+    text-shadow:
+        0 0 20px rgba(0, 255, 255, 0.5),
+        0 0 40px rgba(0, 255, 255, 0.3),
+        0 0 60px rgba(0, 255, 255, 0.2);
+    line-height: 1;
+    transition: all 0.5s ease;
+    margin-bottom: 0.5rem;
+}
+
+.result-value.positive {
+    color: rgba(0, 255, 136, 0.95);
+    text-shadow:
+        0 0 20px rgba(0, 255, 136, 0.5),
+        0 0 40px rgba(0, 255, 136, 0.3),
+        0 0 60px rgba(0, 255, 136, 0.2);
+}
+
+.result-value.negative {
+    color: rgba(255, 80, 80, 0.95);
+    text-shadow:
+        0 0 20px rgba(255, 80, 80, 0.5),
+        0 0 40px rgba(255, 80, 80, 0.3),
+        0 0 60px rgba(255, 80, 80, 0.2);
+}
+
+.result-delta {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 500;
+}
+
+.result-delta.positive {
+    color: rgba(0, 255, 136, 0.9);
+}
+
+.result-delta.negative {
+    color: rgba(255, 80, 80, 0.9);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        padding: 1.5rem 0 2.5rem;
+        gap: 1.25rem;
+    }
+
+    .gpa-display {
+        padding: 2rem 1.5rem;
+    }
+
+    .data-card,
+    .simulation-section,
+    .result-section {
+        padding: 1.5rem;
+    }
+
+    .course-row {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+
+    .simulation-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+}
