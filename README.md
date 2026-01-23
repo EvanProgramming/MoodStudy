@@ -1,75 +1,145 @@
 # Mood Study
-Mood Study 是一个面向学生/自学者的 Web 学习规划应用，主要做三件事：
 
-1. 记录与分析“学习相关信号”
+**Transform chaotic mood signals into actionable rhythms.**
 
- ▫ 情绪打卡：心情评分、标签（焦虑/开心/疲惫等）、简短备注。
+Mood Study is a web-based academic planning application that helps students and self-learners optimize their study schedules by analyzing mood patterns, learning behaviors, and daily habits. The platform combines mood tracking, academic goal planning, and AI-powered insights to create personalized study roadmaps that adapt to your emotional patterns.
 
- ▫ 学习行为：通过“学习模式 + 页面可见性 + 操作活跃度”记录学习时长和大致专注度。
+## Features
 
- ▫ 作息：睡觉/起床时间，结合电脑使用时间估计睡眠时长和作息规律。
+- **Mood Tracking**: Log daily mood ratings, emotional tags, and notes to identify patterns
+- **Learning Analytics**: Track study hours, focus levels, and learning behaviors
+- **Sleep & Habit Monitoring**: Monitor sleep patterns and daily routines
+- **Academic Planning**: Set and track GPA goals, AP courses, and university targets
+- **AI-Powered Insights**: Get personalized feedback and recommendations by LLM based on your data
+- **Focus Mode**: Built-in Pomodoro timer for deep work sessions
+- **GPA Simulator**: Simulate future course grades and academic scenarios
+- **Visual Analytics**: Interactive charts and visualizations of your mood and habit patterns
+- **Event Tracking**: Manage deadlines and academic milestones
 
-2. 用 Hugging Face 的 LLM 做“短期反馈 & 日常规划”
+## Live Website
 
- ▫ 根据最近几天/一周的情绪、学习、作息数据：
+🌐 **Visit the live application**: [https://moodstudy.app/](https://moodstudy.app/)
 
- ⁃ 自动生成总结：最近状态如何、问题出在哪里（例如熬夜、专注度低、情绪持续低落）。
+## Setup Instructions
 
- ⁃ 提出短期调整建议：接下来几天/一周如何安排学习时段、休息和任务节奏。
+### Prerequisites
 
- ▫ 提供一个聊天界面，让用户和 “AI 学习教练”讨论自己的计划和压力，模型基于真实数据来回答。
+- A modern web browser (Chrome, Firefox, Safari, or Edge)
+- A Supabase account and project (for backend services)
+- A Hugging Face API token (for AI features)
 
-3. 用 LLM 做“长期学业规划：GPA、AP、大学方向”
+### Installation
 
-在上面的基础上，新增一个“长期规划”模块：
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/MoodStudy.git
+   cd MoodStudy
+   ```
 
- ▫ 用户可以在网站里输入/维护：
+2. **Configure environment variables**
+   - Copy the example config file:
+     ```bash
+     cp config.example.js config.js
+     ```
+   - Open `config.js` and fill in your credentials:
+     ```javascript
+     export const CONFIG = {
+       SUPABASE_URL: 'your-supabase-url',
+       SUPABASE_KEY: 'your-supabase-anon-key',
+       HF_TOKEN: 'your-huggingface-token',
+     };
+     ```
 
- ⁃ 当前年级、已有/预计的 GPA；
+3. **Set up Supabase database**
+   - Create a Supabase project at [supabase.com](https://supabase.com)
+   - Run the SQL schema from `milestones_table.sql` in your Supabase SQL editor
+   - Get your project URL and anon key from the Supabase dashboard
 
- ⁃ 已经学过或计划学习的 AP 课程、标准化考试（如 AP、SAT/ACT 等）；
+4. **Get Hugging Face API token**
+   - Sign up at [huggingface.co](https://huggingface.co)
+   - Create an API token in your account settings
+   - Add it to `config.js`(edit and rename `config.example.js` as an example)
 
- ⁃ 感兴趣的专业方向和国家/地区（例如 CS、Math、US/UK/国内等）。
+5. **Run the application**
+   - Since this is a static web application, you can:
+     - Open `index.html` directly in your browser, or
+     - Use a local development server:
+       ```bash
+       # Using Python
+       python -m http.server 8000
+       
+       # Using Node.js (if you have http-server installed)
+       npx http-server
+       
+       # Using PHP
+       php -S localhost:8000
+       ```
+   - Navigate to `http://localhost:8000` in your browser
 
- ▫ 系统把这些“长期学业信息”与 Mood Study 已有的信号（学习习惯、作息、情绪稳定性）一起提供给 LLM，让模型：
+### Important Notes
 
- ⁃ 做长期路径规划：
+- **Never commit `config.js`**: This file contains sensitive credentials and should be kept private
+- The application uses ES6 modules, so it must be served over HTTP/HTTPS (not `file://`)
+- Ensure your Supabase project has the necessary database tables and Row Level Security (RLS) policies configured
 
- ▪ 接下来 1–2 年在课程和备考上的优先级（例如先把哪些基础课学扎实，再上哪些 AP）。
+## Technologies Used
 
- ▪ 针对不同学期的大致“负载建议”（每学期不要选太多高强度课等）。
+### Frontend
+- **HTML5 & CSS3**: Modern semantic markup and styling
+- **Vanilla JavaScript (ES6+)**: No framework dependencies, pure JavaScript
+- **Three.js**: 3D graphics and visual effects for immersive UI
+- **GSAP (GreenSock Animation Platform)**: Advanced animations and scroll-triggered effects
+- **Lenis**: Smooth scrolling library for enhanced user experience
 
- ⁃ 给出AP/考试策略建议：
+### Backend & Services
+- **Supabase**: Backend-as-a-Service for authentication, database, and real-time features
+- **Hugging Face API**: AI/LLM integration for personalized insights and recommendations
 
- ▪ 结合学生的当前基础和学习习惯，建议哪些 AP 比较适合先选、如何安排复习时间。
+### Development Tools
+- **Git**: Version control
+- **Modern Browser DevTools**: For debugging and development
 
- ⁃ 提供大学/专业方向建议：
+## Project Structure
 
- ▪ 根据 GPA、AP 组合、兴趣方向和学习模式，给出“适合的学校类型/层次”和专业建议（偏参考/启发，而不是按排名机械推荐）。
+```
+MoodStudy/
+├── index.html          # Landing page
+├── dashboard.html      # Main dashboard
+├── daily.html          # Daily mood/logging interface
+├── profile.html        # User profile and academic goals
+├── focus.html          # Pomodoro focus timer
+├── simulator.html      # GPA simulation tool
+├── history.html        # Mood and habit history/analytics
+├── events.html         # Event and deadline tracking
+├── config.js           # Configuration (not committed)
+├── config.example.js   # Configuration template
+├── supabaseClient.js   # Supabase client setup
+├── app.js              # Main application logic
+├── auth.js             # Authentication handlers
+├── dashboard.js        # Dashboard functionality
+├── style.css           # Main stylesheet
+├── dashboard.css       # Dashboard-specific styles
+├── milestones_table.sql # Database schema
+└── assests/            # Images and audio files
+```
 
- ▫ 用户可以在一个专门的“长期规划”对话页里提问，例如：
+## Demo Video
 
- ⁃ “我现在 G9/G10，GPA 大概多少，想走 CS，将来申请美国大学，你帮我规划一下 AP 和课外活动的节奏。”
+<!-- TODO: Add demo video here -->
+[![Demo Video](https://via.placeholder.com/800x450?text=Demo+Video+Coming+Soon)](https://youtube.com/watch?v=VIDEO_ID)
 
- ⁃ “我现在的 Mood Study 数据显示我经常熬夜，你帮我根据这个情况调整一下高二、高三的学习强度和备考安排。”
+## Contributing
 
-和原有设计的衔接方式 ￼
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-- 短期部分（情绪/学习/作息信号）提供当前状态和习惯的“底层事实”。
+## License
 
-- 新增的 GPA / AP / 大学信息提供目标和约束条件。
+This project is open source and available under the [MIT License](LICENSE).
 
-- LLM 在短期信号 + 长期目标的共同约束下给出：
+## Support
 
- ▫ 现实可行的长期路径（不会只说“多学点，多考高分”）。
+For issues, questions, or suggestions, please open an issue on the GitHub repository.
 
- ▫ 更贴合你当前作息和专注能力的规划（比如你现在很容易 burnout，建议一步步调整而不是一次性拉满负荷）。
+---
 
-从主题 Signal 的角度看，现在：
-
-- 你不仅在处理“当下的行为和情绪信号”，
-
-- 还把 GPA、课程选择、考试计划这些当作“长期学业信号”，
-
-- 用 LLM 把短期信号和长期信号对齐，做成一个完整的学习路径建议系统。
-
+**Built with ❤️ and ☕️ for students and lifelong learners**
