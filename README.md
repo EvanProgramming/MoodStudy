@@ -126,7 +126,7 @@ MoodStudy/
 ## Demo Video
 
 <video width="800" controls>
-  <source src="assests/Screen Recording 2026-01-23 at 18.09.11.mov" type="video/quicktime">
+  <source src="https://moodstudy.top/assests/demoVideo.mp4" type="video/quicktime">
   Your browser does not support the video tag.
 </video>
 
