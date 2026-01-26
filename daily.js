@@ -515,10 +515,14 @@ function buildPrompt({ profile, log, milestonesString, milestones }) {
     toneGuidance = 'Encouraging and balanced.';
   }
 
+  const gpaStr = typeof p.gpa === 'number' ? `${p.gpa}/4.0` : String(p.gpa);
   return `[INST] You are "Mood Study", a smart and empathetic academic companion.
 You are talking to a student who wants to study ${p.major}.
 
+**Important:** All GPAs in this system use a 4.0 scale; 4.0 is the highest possible.
+
 **The Context:**
+- Student: Grade ${p.grade}, GPA ${gpaStr} (4.0 scale).
 - Upcoming Deadlines: ${milestonesString || 'Clear horizon'}.
 - Today's Stats: Slept ${sleep}h, Studied ${study}h, Played ${game}h.
 - Mood: ${mood}/10.

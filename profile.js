@@ -40,7 +40,7 @@ function prefersReducedMotion() {
 }
 
 function formatGpa(v) {
-  return clamp(safeNum(v, 0), 0, 5).toFixed(1);
+  return clamp(safeNum(v, 0), 0, 4).toFixed(1);
 }
 
 function showToast(message, { isError = false, durationMs = 1200 } = {}) {
@@ -87,7 +87,7 @@ function setGrade(grade) {
 }
 
 function setGpa(gpa) {
-  const v = clamp(safeNum(gpa, 0), 0, 5);
+  const v = clamp(safeNum(gpa, 0), 0, 4);
   state.gpa = v;
 
   const formatted = formatGpa(v);
@@ -193,7 +193,7 @@ async function saveProfile(user, isNewProfile = false) {
   els.saveBtn.textContent = 'Saving…';
 
   const gradeVal = state.grade ? String(state.grade) : null;
-  const gpaVal = clamp(safeNum(els.gpaInput?.value, 0), 0, 5);
+  const gpaVal = clamp(safeNum(els.gpaInput?.value, 0), 0, 4);
   const majorVal = (els.majorInput?.value || '').trim() || null;
   const regionVal = (els.regionInput?.value || '').trim() || null;
   const selectedTags = Array.from(state.selectedTags);
@@ -406,7 +406,7 @@ const orb = (() => {
   }
 
   function setGpa(gpa) {
-    const norm = clamp(safeNum(gpa, 0), 0, 5) / 5;
+    const norm = clamp(safeNum(gpa, 0), 0, 4) / 4;
     targetScale = 0.88 + norm * 0.34;
     targetEmissive = 0.08 + norm * 0.34;
     targetColorMix = norm;
