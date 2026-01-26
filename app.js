@@ -300,7 +300,7 @@ lenis.on('scroll', ({ scroll, limit, velocity }) => {
     
     // Update lighting brightness
     ambientLight.intensity = ambientIntensity;
-    pointLight.intensity = pointLightIntensity;
+    EnlightmentLight.intensity = pointLightIntensity;
     pinkLight.intensity = pinkLightIntensity;
     cyanLight.intensity = cyanLightIntensity;
     heroSpotLight.intensity = heroSpotLightIntensity;
@@ -386,51 +386,53 @@ let currentBtnX = 0;
 let currentBtnY = 0;
 
 let rafId = null;
-function updateMagneticButton() {
-    currentBtnX += (targetBtnX - currentBtnX) * 0.1;
-    currentBtnY += (targetBtnY - currentBtnY) * 0.1;
-    
-    gsap.set(magneticBtn, {
-        x: currentBtnX * 0.3,
-        y: currentBtnY * 0.3
-    });
-    
-    if (Math.abs(targetBtnX) > 0.1 || Math.abs(targetBtnY) > 0.1) {
-        rafId = requestAnimationFrame(updateMagneticButton);
+if (magneticBtn) {
+    function updateMagneticButton() {
+        currentBtnX += (targetBtnX - currentBtnX) * 0.1;
+        currentBtnY += (targetBtnY - currentBtnY) * 0.1;
+
+        gsap.set(magneticBtn, {
+            x: currentBtnX * 0.3,
+            y: currentBtnY * 0.3
+        });
+
+        if (Math.abs(targetBtnX) > 0.1 || Math.abs(targetBtnY) > 0.1) {
+            rafId = requestAnimationFrame(updateMagneticButton);
+        }
     }
+
+    magneticBtn.addEventListener('mousemove', (e) => {
+        const rect = magneticBtn.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+
+        targetBtnX = e.clientX - centerX;
+        targetBtnY = e.clientY - centerY;
+
+        if (!rafId) {
+            rafId = requestAnimationFrame(updateMagneticButton);
+        }
+    });
+
+    magneticBtn.addEventListener('mouseleave', () => {
+        targetBtnX = 0;
+        targetBtnY = 0;
+
+        gsap.to(magneticBtn, {
+            x: 0,
+            y: 0,
+            duration: 0.5,
+            ease: 'power2.out'
+        });
+
+        if (rafId) {
+            cancelAnimationFrame(rafId);
+            rafId = null;
+        }
+        currentBtnX = 0;
+        currentBtnY = 0;
+    });
 }
-
-magneticBtn.addEventListener('mousemove', (e) => {
-    const rect = magneticBtn.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    
-    targetBtnX = e.clientX - centerX;
-    targetBtnY = e.clientY - centerY;
-    
-    if (!rafId) {
-        rafId = requestAnimationFrame(updateMagneticButton);
-    }
-});
-
-magneticBtn.addEventListener('mouseleave', () => {
-    targetBtnX = 0;
-    targetBtnY = 0;
-    
-    gsap.to(magneticBtn, {
-        x: 0,
-        y: 0,
-        duration: 0.5,
-        ease: 'power2.out'
-    });
-    
-    if (rafId) {
-        cancelAnimationFrame(rafId);
-        rafId = null;
-    }
-    currentBtnX = 0;
-    currentBtnY = 0;
-});
 
 // ==========================================
 // CUSTOM CURSOR
