@@ -123,7 +123,7 @@ MoodStudy/
 └── assests/            # Images and audio files
 ```
 
-## Demo Video
+## Demo Video(Click the picture to watch the demo video)
 
 [![Watch the demo video](https://moodstudy.top/assests/moodstudy.png)](https://moodstudy.top/assests/demoVideo.mp4)
 
