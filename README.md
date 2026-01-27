@@ -125,8 +125,7 @@ MoodStudy/
 
 ## Demo Video
 
-<video width="800" controls>
-  <source src="https://moodstudy.top/assests/demoVideo.mp4" type="video/quicktime">
+<video src="https://moodstudy.top/assests/demoVideo.mp4" controls width="640">
   Your browser does not support the video tag.
 </video>
 
