@@ -129,7 +129,11 @@ import './supabaseClient.js';
       }
 
       if (result.error) {
-        setError(result.error.message || 'Authentication failed.');
+        const msg = result.error.message || '';
+        const isUnavailable = /unavailable|ECONNREFUSED|ETIMEDOUT|network|maintenance|fetch failed/i.test(msg);
+        setError(isUnavailable
+          ? 'Supabase is briefly unavailable. Please try again in a moment.'
+          : (msg || 'Authentication failed.'));
         shake();
         return;
       }
@@ -137,7 +141,11 @@ import './supabaseClient.js';
       alert('Welcome');
       window.location.href = 'dashboard.html';
     } catch (err) {
-      setError(err?.message || 'Something went wrong. Try again.');
+      const msg = err?.message || '';
+      const isUnavailable = /unavailable|ECONNREFUSED|ETIMEDOUT|network|maintenance|fetch failed/i.test(msg);
+      setError(isUnavailable
+        ? 'Supabase is briefly unavailable. Please try again in a moment.'
+        : (msg || 'Something went wrong. Try again.'));
       shake();
     } finally {
       submitBtn.disabled = false;
