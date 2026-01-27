@@ -125,9 +125,7 @@ MoodStudy/
 
 ## Demo Video
 
-<video src="https://moodstudy.top/assests/demoVideo.mp4" controls width="640">
-  Your browser does not support the video tag.
-</video>
+[![Watch the video](https://img.youtube.com)](https://moodstudy.top/assests/demoVideo.mp4)
 
 ## Contributing
 
