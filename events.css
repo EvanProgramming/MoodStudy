@@ -270,7 +270,13 @@ button {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    gap: 1rem;
     margin-bottom: 1rem;
+}
+
+.mission-header > div {
+    flex: 1;
+    min-width: 0; /* Allows flex item to shrink below content size */
 }
 
 .mission-title {
@@ -279,7 +285,9 @@ button {
     font-weight: 600;
     letter-spacing: -0.01em;
     margin-bottom: 0.25rem;
-    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .mission-delete {
@@ -293,7 +301,8 @@ button {
     border-radius: 6px;
     color: rgba(255, 80, 80, 0.9);
     transition: all 0.2s ease;
-    flex-shrink: 0;
+    flex-shrink: 0; /* Prevent button from shrinking */
+    flex-grow: 0; /* Prevent button from growing */
 }
 
 .mission-delete:hover {
