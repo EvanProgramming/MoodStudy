@@ -13,6 +13,7 @@ const els = {
   regionInput: document.getElementById('region-input'),
   apTags: document.getElementById('ap-tags'),
   apBtns: Array.from(document.querySelectorAll('.ap-tag')),
+  customApInput: document.getElementById('custom-ap-input'),
   apCount: document.getElementById('ap-count'),
   saveBtn: document.getElementById('save-btn'),
   toast: document.getElementById('toast'),
@@ -98,6 +99,18 @@ function setGpa(gpa) {
   orb?.setGpa?.(v);
 }
 
+function getPredefinedTagNames() {
+  return new Set(els.apBtns.map((btn) => btn.getAttribute('data-tag') || '').filter(Boolean));
+}
+
+function parseCustomCourses(text) {
+  if (!text || typeof text !== 'string') return [];
+  return text
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
+
 function setSelectedTags(tags) {
   let list = [];
   if (Array.isArray(tags)) {
@@ -111,19 +124,30 @@ function setSelectedTags(tags) {
     }
   }
 
-  state.selectedTags = new Set(list.map((t) => (typeof t === 'string' ? t.trim() : '')).filter(Boolean));
+  const allCourses = list.map((t) => (typeof t === 'string' ? t.trim() : '')).filter(Boolean);
+  state.selectedTags = new Set(allCourses);
+  const predefined = getPredefinedTagNames();
 
+  // Update button states for predefined tags
   els.apBtns.forEach((btn) => {
     const tag = btn.getAttribute('data-tag') || '';
     btn.classList.toggle('is-selected', state.selectedTags.has(tag));
     btn.setAttribute('aria-pressed', state.selectedTags.has(tag) ? 'true' : 'false');
   });
 
+  // Populate custom input with courses that aren't predefined
+  const customCourses = allCourses.filter((c) => !predefined.has(c));
+  if (els.customApInput) {
+    els.customApInput.value = customCourses.join(', ');
+  }
+
   updateApCount();
 }
 
 function updateApCount() {
-  if (els.apCount) els.apCount.textContent = String(state.selectedTags.size);
+  const customCourses = parseCustomCourses(els.customApInput?.value || '');
+  const total = state.selectedTags.size + customCourses.filter((c) => !state.selectedTags.has(c)).length;
+  if (els.apCount) els.apCount.textContent = String(total);
 }
 
 function wireInteractions() {
@@ -158,6 +182,12 @@ function wireInteractions() {
       updateApCount();
     });
   });
+
+  // Custom AP courses input
+  if (els.customApInput) {
+    els.customApInput.addEventListener('input', updateApCount);
+    els.customApInput.addEventListener('blur', updateApCount);
+  }
 }
 
 async function loadProfile(user) {
@@ -196,7 +226,11 @@ async function saveProfile(user, isNewProfile = false) {
   const gpaVal = clamp(safeNum(els.gpaInput?.value, 0), 0, 4);
   const majorVal = (els.majorInput?.value || '').trim() || null;
   const regionVal = (els.regionInput?.value || '').trim() || null;
-  const selectedTags = Array.from(state.selectedTags);
+  
+  // Combine predefined tags and custom courses
+  const predefinedTags = Array.from(state.selectedTags);
+  const customCourses = parseCustomCourses(els.customApInput?.value || '');
+  const allCourses = [...new Set([...predefinedTags, ...customCourses])].filter(Boolean);
 
   try {
     const { error } = await supabase.from('user_data').upsert({
@@ -205,7 +239,7 @@ async function saveProfile(user, isNewProfile = false) {
       gpa: gpaVal,
       major: majorVal,
       region: regionVal,
-      ap_courses: selectedTags,
+      ap_courses: allCourses,
       updated_at: new Date(),
     });
 

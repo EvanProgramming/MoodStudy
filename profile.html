@@ -165,10 +165,10 @@
           <div class="section">
             <div class="section__head">
               <h2 class="section__title">Course Load (AP/IB)</h2>
-              <p class="section__hint">Tap to toggle. Selected courses glow cyan.</p>
+              <p class="section__hint">Tap common courses to toggle. Add others in the text box below.</p>
             </div>
 
-            <div id="ap-tags" class="tags" aria-label="AP course tags">
+            <div id="ap-tags" class="tags" aria-label="Common AP course tags">
               <button class="ap-tag" type="button" data-tag="Calc BC">Calc BC</button>
               <button class="ap-tag" type="button" data-tag="Physics C">Physics C</button>
               <button class="ap-tag" type="button" data-tag="CSA">CSA</button>
@@ -176,6 +176,20 @@
               <button class="ap-tag" type="button" data-tag="Bio">Bio</button>
               <button class="ap-tag" type="button" data-tag="Psych">Psych</button>
               <button class="ap-tag" type="button" data-tag="US History">US History</button>
+            </div>
+
+            <div class="field field--custom-ap">
+              <label class="field__label" for="custom-ap-input">Other AP/IB Courses</label>
+              <textarea
+                id="custom-ap-input"
+                class="text-input custom-ap-input"
+                rows="3"
+                placeholder='e.g., "Economics, Art History, Spanish, Studio Art" (comma-separated)'
+                autocomplete="off"
+              ></textarea>
+              <div class="field__hint">
+                Enter additional courses separated by commas.
+              </div>
             </div>
 
             <div class="actions">
