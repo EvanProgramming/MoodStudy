@@ -194,7 +194,7 @@ button {
 .mission-card {
     position: relative;
     padding: 1.75rem;
-    background: rgba(255, 255, 255, 0.04);
+    background: rgba(255, 255, 255, 0.06);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 20px;
     -webkit-backdrop-filter: blur(14px);
@@ -215,7 +215,7 @@ button {
         rgba(0, 255, 136, 0.15)
     );
     filter: blur(12px);
-    opacity: 0;
+    opacity: 0.15;
     transition: opacity 0.3s ease;
     z-index: -1;
 }
@@ -227,7 +227,7 @@ button {
 }
 
 .mission-card:hover::before {
-    opacity: 0.3;
+    opacity: 0.35;
 }
 
 /* Urgency States */
@@ -237,6 +237,11 @@ button {
 
 .mission-card.safe::before {
     background: linear-gradient(135deg, rgba(0, 255, 136, 0.3), rgba(0, 255, 255, 0.2));
+    opacity: 0.2;
+}
+
+.mission-card.safe:hover::before {
+    opacity: 0.4;
 }
 
 .mission-card.caution {
@@ -245,6 +250,11 @@ button {
 
 .mission-card.caution::before {
     background: linear-gradient(135deg, rgba(255, 200, 0, 0.3), rgba(255, 150, 0, 0.2));
+    opacity: 0.25;
+}
+
+.mission-card.caution:hover::before {
+    opacity: 0.45;
 }
 
 .mission-card.critical {
@@ -254,7 +264,11 @@ button {
 
 .mission-card.critical::before {
     background: linear-gradient(135deg, rgba(255, 80, 80, 0.4), rgba(255, 0, 0, 0.3));
-    opacity: 0.4;
+    opacity: 0.35;
+}
+
+.mission-card.critical:hover::before {
+    opacity: 0.5;
 }
 
 @keyframes pulse-critical {

@@ -227,7 +227,7 @@ function calculateProgress(daysRemaining, totalDays = 60) {
 }
 
 // Render mission card
-function renderMissionCard(milestone, dailyLog) {
+function renderMissionCard(milestone, dailyLog, index = 0) {
     const daysRemaining = calculateDaysRemaining(milestone.due_date);
     const urgencyState = getUrgencyState(daysRemaining);
     const showWarning = shouldShowWarning(milestone, dailyLog);
@@ -313,8 +313,8 @@ function renderMissions() {
 
     // Fetch daily logs once for all milestones
     fetchDailyLogs(state.currentUser).then(dailyLog => {
-        els.missionsGrid.innerHTML = state.milestones.map(milestone => 
-            renderMissionCard(milestone, dailyLog)
+        els.missionsGrid.innerHTML = state.milestones.map((milestone, index) => 
+            renderMissionCard(milestone, dailyLog, index)
         ).join('');
 
         // Attach delete handlers
@@ -334,16 +334,33 @@ function renderMissions() {
             });
         });
 
-        // Animate in
+        // Apply decreasing brightness based on card order (more gradual decrease)
+        const cards = els.missionsGrid.querySelectorAll('.mission-card');
         const gsap = window.gsap;
+        
         if (gsap && !prefersReducedMotion()) {
-            const cards = els.missionsGrid.querySelectorAll('.mission-card');
-            gsap.from(cards, {
-                opacity: 0,
-                y: 20,
-                duration: 0.5,
-                ease: 'power3.out',
-                stagger: 0.1
+            // Animate in, then apply opacity based on order
+            cards.forEach((card, index) => {
+                // Calculate opacity: start at 1.0, decrease by 0.07 per card
+                // This ensures even the 10th card is still at 0.3 opacity minimum
+                const targetOpacity = Math.max(0.3, 1.0 - (index * 0.07));
+                
+                gsap.fromTo(card, 
+                    { opacity: 0, y: 20 },
+                    { 
+                        opacity: targetOpacity, 
+                        y: 0, 
+                        duration: 0.5, 
+                        delay: index * 0.1,
+                        ease: 'power3.out' 
+                    }
+                );
+            });
+        } else {
+            // No animation - just set opacity directly
+            cards.forEach((card, index) => {
+                const opacity = Math.max(0.3, 1.0 - (index * 0.07));
+                card.style.opacity = opacity;
             });
         }
     });
