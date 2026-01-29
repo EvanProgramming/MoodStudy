@@ -126,7 +126,7 @@ MoodStudy/
 
 ## Demo Video(Click the picture to watch the demo video)
 
-[![Watch the demo video](https://moodstudy.top/assests/moodstudy.png)](https://moodstudy.top/assests/demoVideo.mp4)
+[![Watch the demo video](https://moodstudy.top/assests/moodstudy.png)](https://moodstudy.top/assests/demoVideo.mp4){width=auto height=50%}
 
 ## Contributing
 
