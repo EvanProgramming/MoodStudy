@@ -32,7 +32,7 @@ Mood Study is a web-based academic planning application that helps students and 
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/MoodStudy.git
+   git clone https://github.com/EvanProgramming/MoodStudy.git
    cd MoodStudy
    ```
 
