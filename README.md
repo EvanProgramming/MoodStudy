@@ -18,7 +18,7 @@ Mood Study is a web-based academic planning application that helps students and 
 
 ## Live Website
 
-🌐 **Visit the live application**: [https://moodstudy.app/](https://moodstudy.app/)
+🌐 **Visit the live application**: [https://moodstudy.top/](https://moodstudy.top/)
 
 ## Setup Instructions
 
