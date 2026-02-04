@@ -362,19 +362,52 @@ if (heroTitle) {
 }
 
 // Hero subtitle animation
-gsap.fromTo(heroSubtitle,
-    {
-        opacity: 0,
-        y: 30
-    },
-    {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        delay: 0.8,
-        ease: 'power3.out'
+if (heroSubtitle) {
+    gsap.fromTo(heroSubtitle,
+        {
+            opacity: 0,
+            y: 30
+        },
+        {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            delay: 0.8,
+            ease: 'power3.out'
+        }
+    );
+}
+
+// ==========================================
+// HERO CTA: Session check and button behavior
+// ==========================================
+(async function initHeroCta() {
+    const heroCta = document.getElementById('hero-cta');
+    const textEl = heroCta?.querySelector('.hero-cta__text');
+    if (!heroCta || !textEl) return;
+
+    let hasSession = false;
+    try {
+        const supabase = window.supabaseClient;
+        if (supabase?.auth) {
+            const { data: { session } } = await supabase.auth.getSession();
+            hasSession = !!session;
+        }
+    } catch (_) {}
+
+    if (hasSession) {
+        textEl.textContent = 'Resume Session';
+        heroCta.setAttribute('aria-label', 'Resume your session');
+        heroCta.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            window.location.href = 'dashboard.html';
+        }, true);
+    } else {
+        textEl.textContent = 'Initialize System';
+        heroCta.setAttribute('aria-label', 'Initialize system');
     }
-);
+})();
 
 // ==========================================
 // MAGNETIC BUTTON EFFECT

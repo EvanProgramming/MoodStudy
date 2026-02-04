@@ -6,6 +6,7 @@ import './supabaseClient.js';
   const card = document.getElementById('auth-card');
   const closeBtn = document.getElementById('auth-close');
   const startBtn = document.getElementById('start-btn');
+  const heroCta = document.getElementById('hero-cta');
 
   const tabLogin = document.getElementById('auth-tab-login');
   const tabRegister = document.getElementById('auth-tab-register');
@@ -72,11 +73,19 @@ import './supabaseClient.js';
     setError('');
   }
 
-  // Open modal when "Start Syncing" is clicked
-  startBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    openModal();
-  });
+  // Open modal when "Start Syncing" or hero CTA (when used as button) is clicked
+  if (startBtn) {
+    startBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      openModal();
+    });
+  }
+  if (heroCta) {
+    heroCta.addEventListener('click', (e) => {
+      e.preventDefault();
+      openModal();
+    });
+  }
 
   // Close modal
   closeBtn.addEventListener('click', closeModal);

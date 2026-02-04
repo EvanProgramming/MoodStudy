@@ -68,11 +68,34 @@
     <!-- Skip to main content for accessibility -->
     <a href="#main-content" class="skip-link" style="position: absolute; left: -9999px; z-index: 999;">Skip to main content</a>
 
+    <!-- Vignette overlay (darker corners) -->
+    <div class="vignette-overlay" aria-hidden="true"></div>
+
     <!-- Hero Section -->
     <main id="main-content">
     <section class="section section-hero" data-section="hero" aria-label="Hero section">
+        <!-- HUD: top left -->
+        <div class="hud hud--top-left" aria-hidden="true">
+            <span class="hud__text">SYSTEM_READY // V.1.0</span>
+        </div>
+        <!-- HUD: bottom right (scanning) -->
+        <div class="hud hud--bottom-right" aria-hidden="true">
+            <div class="hud__scan" aria-hidden="true">
+                <svg class="hud__scan-svg" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="32" cy="32" r="28" stroke="currentColor" stroke-width="1" stroke-opacity="0.4" />
+                    <circle cx="32" cy="32" r="20" stroke="currentColor" stroke-width="0.5" stroke-opacity="0.25" />
+                    <line x1="32" y1="4" x2="32" y2="32" stroke="currentColor" stroke-width="0.75" stroke-opacity="0.6" class="hud__scan-line" />
+                </svg>
+            </div>
+        </div>
+
         <div class="content">
-            <h1 class="hero-title" id="hero-title">MOOD STUDY</h1>
+            <div class="hero-content">
+                <h1 class="hero-title" id="hero-title">MOOD STUDY</h1>
+                <button type="button" class="hero-cta" id="hero-cta" aria-label="Initialize system or resume session">
+                    <span class="hero-cta__text">Initialize System</span>
+                </button>
+            </div>
             <p class="hero-subtitle">Transform chaotic mood signals into actionable rhythms</p>
         </div>
         <!-- Scroll hint (click to scroll to next section) -->
