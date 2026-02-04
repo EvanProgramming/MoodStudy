@@ -18,7 +18,7 @@ Mood Study is a web-based academic planning application that helps students and 
 
 ## Live Website
 
-🌐 **Visit the live application**: [https://moodstudy.app/](https://moodstudy.app/)
+🌐 **Visit the live application**: [https://moodstudy.top/](https://moodstudy.top/)
 
 ## Setup Instructions
 
@@ -32,7 +32,7 @@ Mood Study is a web-based academic planning application that helps students and 
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/MoodStudy.git
+   git clone https://github.com/EvanProgramming/MoodStudy.git
    cd MoodStudy
    ```
 
@@ -53,6 +53,7 @@ Mood Study is a web-based academic planning application that helps students and 
 3. **Set up Supabase database**
    - Create a Supabase project at [supabase.com](https://supabase.com)
    - Run the SQL schema from `milestones_table.sql` in your Supabase SQL editor
+   - Manually create other tables according to the scripts. A full SQL may be uploaded in the future.
    - Get your project URL and anon key from the Supabase dashboard
 
 4. **Get Hugging Face API token**
