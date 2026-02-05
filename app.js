@@ -40,7 +40,7 @@ requestAnimationFrame(raf);
 // ==========================================
 const container = document.getElementById('canvas-container');
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x050505); // Deep black background
+scene.background = new THREE.Color(0x08090a); // Silent Obsidian – warm ink black
 
 const camera = new THREE.PerspectiveCamera(
     75,
@@ -61,29 +61,25 @@ renderer.outputColorSpace = THREE.SRGBColorSpace;
 container.appendChild(renderer.domElement);
 
 // ==========================================
-// LIGHTING SETUP
+// LIGHTING SETUP – Pure silver/white, no color cast
 // ==========================================
-// Ambient Light - Dark Blue (will be adjusted based on scroll)
-const ambientLight = new THREE.AmbientLight(0x004080, 10);
+const ambientLight = new THREE.AmbientLight(0x444444, 0.8);
 scene.add(ambientLight);
 
-// Directional Light 1 - Hot Pink from left
-const pinkLight = new THREE.DirectionalLight(0xff00ff, 0.5);
-pinkLight.position.set(-3, 3, 5);
-scene.add(pinkLight);
+// Directional lights – soft white/silver (replaces pink/cyan)
+const keyLight1 = new THREE.DirectionalLight(0xe8e8e8, 0.4);
+keyLight1.position.set(-3, 3, 5);
+scene.add(keyLight1);
 
-// Directional Light 2 - Cyan from right
-const cyanLight = new THREE.DirectionalLight(0x00ffff, 0.5);
-cyanLight.position.set(3, -3, 5);
-scene.add(cyanLight);
+const keyLight2 = new THREE.DirectionalLight(0xe8e8e8, 0.4);
+keyLight2.position.set(3, -3, 5);
+scene.add(keyLight2);
 
-// Additional point light for hero and last sections (brighter)
-const EnlightmentLight = new THREE.DirectionalLight(0xffffff, 2, 250);
+const EnlightmentLight = new THREE.DirectionalLight(0xffffff, 1.2, 250);
 EnlightmentLight.position.set(0, 0, 5);
 scene.add(EnlightmentLight);
 
-// Additional spotlight specifically for hero section object
-const heroSpotLight = new THREE.SpotLight(0xffffff, 8, 30, Math.PI / 6, 0.8, 1.5);
+const heroSpotLight = new THREE.SpotLight(0xffffff, 4, 30, Math.PI / 6, 0.8, 1.5);
 heroSpotLight.position.set(0, 3, 8);
 heroSpotLight.target.position.set(0, 0, 0);
 heroSpotLight.target.updateMatrixWorld();
@@ -110,23 +106,16 @@ const chaosMesh = new THREE.Mesh(chaosGeometry, chaosMaterial);
 chaosMesh.scale.set(1.0, 1.0, 1.0);
 objectsGroup.add(chaosMesh);
 
-// Object B: Sphere (Analysis/Glass) - "Siri Orb" Iridescent Material
+// Object B: Sphere – Pure silver/white, minimal bloom
 const sphereGeometry = new THREE.SphereGeometry(1, 64, 64);
 const materialB = new THREE.MeshPhysicalMaterial({
-    color: 0x8888ff,          // Soft blue tint instead of pure white
-    roughness: 0.7,           // Perfectly smooth
-    metalness: 1,           // Slight metallic feel
-    transmission: 0,        // Much reduced transmission (less white washout)
-    thickness: 1.5,           // Refraction volume
-    
-    // THE MAGIC SAUCE (Iridescence)
-    iridescence: 1,         // Full rainbow effect
-    iridescenceIOR: 1.3,      // Index of Refraction for the rainbow thin-film
-    iridescenceThicknessRange: [100,400], // Range creates the color shifts
-    
-    // Glow properties - more colorful
-    emissive: 0x3300ff,       // Deep Purple/Blue inner glow
-    emissiveIntensity: 0.1    // Increased emissive to rely less on external lights
+    color: 0xc8c8c8,
+    roughness: 0.5,
+    metalness: 0.95,
+    transmission: 0,
+    iridescence: 0,
+    emissive: 0x222222,
+    emissiveIntensity: 0.05
 });
 const sphereMesh = new THREE.Mesh(sphereGeometry, materialB);
 sphereMesh.scale.set(0.0, 0.0, 0.0);
@@ -148,6 +137,30 @@ torusMesh.scale.set(0.0, 0.0, 0.0);
 objectsGroup.add(torusMesh);
 
 // ==========================================
+// PARTICLES – Pure silver/white stars/dust (minimal bloom)
+// ==========================================
+const particleCount = 3200;
+const particlePositions = new Float32Array(particleCount * 3);
+for (let i = 0; i < particleCount * 3; i += 3) {
+    particlePositions[i] = (Math.random() - 0.5) * 40;
+    particlePositions[i + 1] = (Math.random() - 0.5) * 40;
+    particlePositions[i + 2] = (Math.random() - 0.5) * 40;
+}
+const particlesGeometry = new THREE.BufferGeometry();
+particlesGeometry.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+const particlesMaterial = new THREE.PointsMaterial({
+    color: 0xdddddd,
+    size: 0.028,
+    sizeAttenuation: true,
+    transparent: true,
+    opacity: 0.85,
+    blending: THREE.AdditiveBlending,
+    depthWrite: false
+});
+const particles = new THREE.Points(particlesGeometry, particlesMaterial);
+scene.add(particles);
+
+// ==========================================
 // POST-PROCESSING (BLOOM EFFECT)
 // ==========================================
 const composer = new EffectComposer(renderer);
@@ -157,9 +170,9 @@ composer.addPass(renderPass);
 
 const bloomPass = new UnrealBloomPass(
     new THREE.Vector2(window.innerWidth, window.innerHeight),
-    1.5, // Strength (Strong Neon Glow)
-    0.5, // Radius
-    0.1  // Threshold
+    0.35, // Strength – subtle, no neon bloom
+    0.2,  // Radius – tighter
+    0.45  // Threshold – only bright/silver elements glow slightly
 );
 composer.addPass(bloomPass);
 
@@ -229,8 +242,8 @@ lenis.on('scroll', ({ scroll, limit, velocity }) => {
     let objectsGroupX = 0;
     let ambientIntensity = 0.5;
     let pointLightIntensity = 0;
-    let pinkLightIntensity = 1.0;
-    let cyanLightIntensity = 1.0;
+    let keyLight1Intensity = 0.4;
+    let keyLight2Intensity = 0.4;
     let heroSpotLightIntensity = 0;
     
     // Section 1 -> 2: Chaos to Glass Sphere (earlier transition to match content cards)
@@ -246,22 +259,20 @@ lenis.on('scroll', ({ scroll, limit, velocity }) => {
         // Position: center (0) -> right (3) as we transition to sphere
         objectsGroupX = t * 3;
         
-        // Brightness: brighter in hero (low t), colorful AI lights for sphere section
+        // Brightness: hero brighter, sphere section neutral silver
         if (t < 0.33) {
-            // Hero section - much brighter
-            const heroBrightness = 1.0 - t * 3; // 1.0 -> 0 as t increases
-            ambientIntensity = 0.5 + heroBrightness * 1.5; // 2.0 -> 0.5
-            pointLightIntensity = heroBrightness * 4; // 4.0 -> 0 (much brighter)
-            pinkLightIntensity = 0.3 + heroBrightness * 0.2; // 0.5 -> 0.3 (reduced - less bright)
-            cyanLightIntensity = 0.3 + heroBrightness * 0.2; // 0.5 -> 0.3 (reduced - less bright)
-            heroSpotLightIntensity = heroBrightness * 8; // 8.0 -> 0 (bright spotlight on object)
+            const heroBrightness = 1.0 - t * 3;
+            ambientIntensity = 0.5 + heroBrightness * 1.2;
+            pointLightIntensity = heroBrightness * 2.5;
+            keyLight1Intensity = 0.3 + heroBrightness * 0.2;
+            keyLight2Intensity = 0.3 + heroBrightness * 0.2;
+            heroSpotLightIntensity = heroBrightness * 4;
         } else {
-            // Sphere section (Scene 2) - use colorful AI-like lights, no bright white light
-            ambientIntensity = 0.2; // Much darker ambient to avoid white wash
-            pointLightIntensity = 0; // No point light to avoid white wash
-            pinkLightIntensity = 2.0; // Even stronger pink for AI aesthetic
-            cyanLightIntensity = 2.0; // Even stronger cyan for AI aesthetic
-            heroSpotLightIntensity = 0; // No spotlight to avoid white ball effect
+            ambientIntensity = 0.35;
+            pointLightIntensity = 0;
+            keyLight1Intensity = 0.5;
+            keyLight2Intensity = 0.5;
+            heroSpotLightIntensity = 0;
         }
     } 
     // Section 2 -> 3: Glass Sphere to Torus (earlier transition to match content cards)
@@ -301,8 +312,8 @@ lenis.on('scroll', ({ scroll, limit, velocity }) => {
     // Update lighting brightness
     ambientLight.intensity = ambientIntensity;
     EnlightmentLight.intensity = pointLightIntensity;
-    pinkLight.intensity = pinkLightIntensity;
-    cyanLight.intensity = cyanLightIntensity;
+    keyLight1.intensity = keyLight1Intensity;
+    keyLight2.intensity = keyLight2Intensity;
     heroSpotLight.intensity = heroSpotLightIntensity;
 });
 
@@ -321,16 +332,18 @@ setTimeout(() => {
 const heroTitle = document.getElementById('hero-title');
 const heroSubtitle = document.querySelector('.hero-subtitle');
 
-// Split text into characters
+// Split text into characters (italicize "MOOD" for editorial look)
 function splitText(element) {
     const text = element.textContent;
     element.innerHTML = '';
+    const italicEnd = text.indexOf(' ') >= 0 ? text.indexOf(' ') : 4; // "MOOD " -> first 4 chars italic
     for (let i = 0; i < text.length; i++) {
         const char = text[i];
+        const spanClass = char === ' ' ? 'char' : (i < italicEnd ? 'char italic' : 'char');
         if (char === ' ') {
             element.innerHTML += '<span class="char">&nbsp;</span>';
         } else {
-            element.innerHTML += `<span class="char">${char}</span>`;
+            element.innerHTML += `<span class="${spanClass}">${char}</span>`;
         }
     }
 }
@@ -499,16 +512,14 @@ function animate() {
     time += 0.01;
     const elapsedTime = time;
     
-    // Orbiting Directional Lights (for iridescence color shifts) - reduced movement
-    // Light 1 (Pink) - orbits around (reduced radius for less dramatic reflection)
-    pinkLight.position.x = Math.sin(elapsedTime * 0.5) * 8;
-    pinkLight.position.z = Math.cos(elapsedTime * 0.5) * 8;
-    pinkLight.position.y = 2 + Math.sin(elapsedTime * 0.3) * 1.5;
-    
-    // Light 2 (Cyan) - orbits in opposite direction (reduced radius)
-    cyanLight.position.x = Math.cos(elapsedTime * 0.5) * 8;
-    cyanLight.position.z = -Math.sin(elapsedTime * 0.5) * 8;
-    cyanLight.position.y = 2 + Math.cos(elapsedTime * 0.3) * 1.5;
+    // Orbiting key lights – subtle silver movement
+    keyLight1.position.x = Math.sin(elapsedTime * 0.5) * 8;
+    keyLight1.position.z = Math.cos(elapsedTime * 0.5) * 8;
+    keyLight1.position.y = 2 + Math.sin(elapsedTime * 0.3) * 1.5;
+
+    keyLight2.position.x = Math.cos(elapsedTime * 0.5) * 8;
+    keyLight2.position.z = -Math.sin(elapsedTime * 0.5) * 8;
+    keyLight2.position.y = 2 + Math.cos(elapsedTime * 0.3) * 1.5;
     
     // Keep spotlight target pointing at object center (moves with objectsGroup)
     heroSpotLight.target.position.set(objectsGroup.position.x, 0, 0);
@@ -551,6 +562,8 @@ window.addEventListener('resize', () => {
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
     composer.setSize(window.innerWidth, window.innerHeight);
+    composer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    bloomPass.resolution.set(window.innerWidth, window.innerHeight);
 });
 
 // ==========================================

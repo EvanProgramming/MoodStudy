@@ -6,20 +6,23 @@
 }
 
 :root {
-    --bg-deep-black: #050505;
-    --glow-cyan: #00ffff;
-    --glow-green: #00ff88;
-    --glow-purple: #8888ff;
-    --glass-bg: rgba(255, 255, 255, 0.05);
+    --bg-color: #08090a;
+    --bg-panel: rgba(255, 255, 255, 0.03);
+    --text-main: #ECECEC;
+    --text-muted: #888888;
+    --border-color: rgba(255, 255, 255, 0.1);
+    --accent-color: #FF4D00;
+    --accent-glow: rgba(255, 77, 0, 0.3);
+    --glass-bg: rgba(10, 10, 10, 0.6);
     --glass-border: rgba(255, 255, 255, 0.1);
-    --text-primary: rgba(255, 255, 255, 0.95);
-    --text-secondary: rgba(255, 255, 255, 0.6);
+    --text-primary: #ECECEC;
+    --text-secondary: #888888;
 }
 
 body {
     font-family: 'JetBrains Mono', 'Courier New', monospace;
-    background: var(--bg-deep-black);
-    color: var(--text-primary);
+    background: var(--bg-color);
+    color: var(--text-main);
     overflow: hidden;
     height: 100vh;
     width: 100vw;
@@ -68,10 +71,9 @@ body {
 }
 
 .back-to-dashboard:hover {
-    background: rgba(5, 5, 5, 0.85);
-    border-color: rgba(0, 255, 255, 0.4);
-    color: rgba(0, 255, 255, 0.95);
-    box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+    background: rgba(10, 10, 10, 0.9);
+    border-color: var(--accent-color);
+    color: var(--text-main);
     transform: translateY(-1px);
 }
 
@@ -97,30 +99,29 @@ body {
 /* Status Pill */
 .status-pill {
     padding: 0.5rem 1.5rem;
-    border-radius: 2rem;
+    border-radius: 4px;
     background: var(--glass-bg);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    border: 1px solid var(--glass-border);
-    box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+    -webkit-backdrop-filter: blur(20px) saturate(0%);
+    backdrop-filter: blur(20px) saturate(0%);
+    border: 1px solid var(--border-color);
     transition: all 0.3s ease;
 }
 
 .status-pill.break {
-    box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+    border-color: var(--accent-color);
 }
 
 .status-text {
-    font-size: 0.875rem;
+    font-size: 0.7rem;
     font-weight: 600;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--glow-cyan);
+    color: var(--text-muted);
     transition: color 0.3s ease;
 }
 
 .status-pill.break .status-text {
-    color: var(--glow-green);
+    color: var(--accent-color);
 }
 
 /* Timer Display */
@@ -150,10 +151,7 @@ body {
     font-size: clamp(4rem, 15vw, 10rem);
     font-weight: 200;
     letter-spacing: 0.05em;
-    color: var(--text-primary);
-    text-shadow: 
-        0 0 20px rgba(255, 255, 255, 0.3),
-        0 0 40px rgba(136, 136, 255, 0.2);
+    color: var(--text-main);
     font-variant-numeric: tabular-nums;
     -webkit-user-select: none;
     user-select: none;
@@ -203,8 +201,7 @@ body {
 }
 
 .control-btn:hover {
-    border-color: var(--glow-cyan);
-    box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+    border-color: var(--accent-color);
     transform: scale(1.1);
 }
 
@@ -291,8 +288,7 @@ body {
 
 .input-group input:focus {
     outline: none;
-    border-color: var(--glow-cyan);
-    box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+    border-color: var(--accent-color);
 }
 
 .editor-actions {
@@ -315,8 +311,7 @@ body {
 }
 
 .editor-btn:hover {
-    border-color: var(--glow-cyan);
-    box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+    border-color: var(--accent-color);
     transform: translateY(-2px);
 }
 
@@ -377,20 +372,22 @@ body {
 
 .overlay-btn {
     padding: 0.875rem 2rem;
-    border-radius: 0.5rem;
-    border: 1px solid var(--glow-cyan);
-    background: rgba(0, 255, 255, 0.1);
-    color: var(--glow-cyan);
+    border-radius: 4px;
+    border: 1px solid var(--accent-color);
+    background: rgba(255, 77, 0, 0.1);
+    color: var(--accent-color);
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.875rem;
+    font-size: 0.75rem;
     font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
 .overlay-btn:hover {
-    background: rgba(0, 255, 255, 0.2);
-    box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+    background: var(--accent-color);
+    color: var(--bg-color);
     transform: translateY(-2px);
 }
 

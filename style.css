@@ -1,4 +1,26 @@
-/* Reset & Base Styles */
+/* ==========================================
+   SILENT OBSIDIAN / EDITORIAL DARK
+   Mood Study – Design Language
+   ========================================== */
+
+:root {
+    /* Backgrounds: Deep, warm ink black */
+    --bg-color: #08090a;
+    --bg-panel: rgba(255, 255, 255, 0.03);
+
+    /* Typography: High contrast but not harsh white */
+    --text-main: #ECECEC;
+    --text-muted: #888888;
+
+    /* Borders: Thin, crisp lines */
+    --border-color: rgba(255, 255, 255, 0.1);
+
+    /* Accent: International Orange (buttons, active states only) */
+    --accent-color: #FF4D00;
+    --accent-glow: rgba(255, 77, 0, 0.3);
+}
+
+/* Reset & Base */
 * {
     margin: 0;
     padding: 0;
@@ -7,27 +29,26 @@
 
 html {
     font-size: 16px;
-    scroll-behavior: auto; /* Let Lenis handle smooth scrolling */
+    scroll-behavior: auto;
 }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: #050505;
-    color: #ffffff;
+    font-family: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+    background: var(--bg-color);
+    color: var(--text-main);
     overflow-x: hidden;
     cursor: none;
 }
 
-/* Vignette (darker corners) */
+/* Vignette */
 .vignette-overlay {
     position: fixed;
     inset: 0;
     pointer-events: none;
     z-index: 1;
-    background: radial-gradient(ellipse 80% 80% at 50% 50%, transparent 30%, rgba(5, 5, 5, 0.4) 70%, rgba(5, 5, 5, 0.85) 100%);
+    background: radial-gradient(ellipse 80% 80% at 50% 50%, transparent 30%, rgba(8, 9, 10, 0.4) 70%, rgba(8, 9, 10, 0.85) 100%);
 }
 
-/* Utility */
 .hidden {
     display: none !important;
 }
@@ -36,7 +57,7 @@ body {
 .custom-cursor {
     width: 20px;
     height: 20px;
-    border: 2px solid rgba(255, 255, 255, 0.5);
+    border: 1px solid var(--border-color);
     border-radius: 50%;
     position: fixed;
     left: 0;
@@ -50,7 +71,7 @@ body {
 .custom-cursor.hover {
     width: 40px;
     height: 40px;
-    border-color: rgba(100, 200, 255, 0.8);
+    border-color: var(--accent-color);
 }
 
 /* Canvas Container */
@@ -80,7 +101,6 @@ body {
     width: 100%;
 }
 
-/* Hero Section */
 .section-hero {
     align-items: center;
     text-align: center;
@@ -94,48 +114,44 @@ body {
     align-items: center;
 }
 
-/* Hero content block (title + CTA) */
 .hero-content {
     text-align: center;
     margin-bottom: 1.5rem;
 }
 
-/* Hero CTA Button */
+/* Hero CTA – accent used sparingly */
 .hero-cta {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     padding: 0.9rem 2rem;
-    margin-top: 0.5rem;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.95);
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.35);
+    color: var(--text-main);
+    background: var(--bg-panel);
+    border: 1px solid var(--border-color);
     border-radius: 4px;
     cursor: none;
     position: relative;
     overflow: hidden;
-    transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 0 24px rgba(100, 200, 255, 0.12), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+    transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+    -webkit-backdrop-filter: blur(20px) saturate(0%);
+    backdrop-filter: blur(20px) saturate(0%);
 }
 
 .hero-cta .hero-cta__text {
     position: relative;
     z-index: 1;
-    text-shadow: 0 0 20px rgba(100, 200, 255, 0.4);
 }
 
 .hero-cta:hover {
-    background: rgba(255, 255, 255, 0.98);
-    border-color: rgba(255, 255, 255, 0.9);
-    color: #050505;
-    box-shadow: 0 0 32px rgba(255, 255, 255, 0.2);
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    color: var(--bg-color);
+    box-shadow: 0 0 24px var(--accent-glow);
 }
 
 .hero-cta:hover .hero-cta__text {
@@ -152,11 +168,11 @@ body {
 }
 
 .hero-cta:focus-visible {
-    outline: 2px solid rgba(100, 200, 255, 0.9);
+    outline: 2px solid var(--accent-color);
     outline-offset: 4px;
 }
 
-/* HUD decorative elements */
+/* HUD */
 .hud {
     position: absolute;
     z-index: 2;
@@ -169,10 +185,11 @@ body {
 }
 
 .hud__text {
-    font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace;
-    font-size: 0.7rem;
-    letter-spacing: 0.15em;
-    color: rgba(255, 255, 255, 0.4);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
 }
 
 .hud--bottom-right {
@@ -183,7 +200,7 @@ body {
 .hud__scan {
     width: 48px;
     height: 48px;
-    color: rgba(100, 200, 255, 0.5);
+    color: var(--text-muted);
 }
 
 .hud__scan-svg {
@@ -213,28 +230,27 @@ body {
     gap: 0.75rem;
     padding: 0.65rem 1rem;
     border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    background: rgba(255, 255, 255, 0.04);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    color: rgba(255, 255, 255, 0.85);
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 0.9rem;
-    letter-spacing: 0.08em;
+    border: 1px solid var(--border-color);
+    background: rgba(10, 10, 10, 0.6);
+    -webkit-backdrop-filter: blur(20px) saturate(0%);
+    backdrop-filter: blur(20px) saturate(0%);
+    color: var(--text-main);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
     text-transform: uppercase;
-    cursor: none; /* match custom cursor setup */
+    cursor: none;
     z-index: 3;
-    transition: opacity 0.25s ease, transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+    transition: opacity 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
 }
 
 .scroll-hint:hover {
-    border-color: rgba(100, 200, 255, 0.6);
-    background: rgba(255, 255, 255, 0.06);
+    border-color: var(--accent-color);
     transform: translateX(-50%) translateY(-2px);
 }
 
 .scroll-hint:focus-visible {
-    outline: 2px solid rgba(100, 200, 255, 0.9);
+    outline: 2px solid var(--accent-color);
     outline-offset: 4px;
 }
 
@@ -257,11 +273,10 @@ body {
 }
 
 .scroll-hint__dot {
-    width: 6px;
-    height: 6px;
+    width: 4px;
+    height: 4px;
     border-radius: 999px;
-    background: rgba(100, 200, 255, 0.9);
-    box-shadow: 0 0 18px rgba(100, 200, 255, 0.35);
+    background: var(--text-muted);
     animation: scrollHintPulse 1.8s ease-in-out infinite;
 }
 
@@ -270,8 +285,8 @@ body {
     bottom: -6px;
     width: 8px;
     height: 8px;
-    border-right: 2px solid rgba(255, 255, 255, 0.7);
-    border-bottom: 2px solid rgba(255, 255, 255, 0.7);
+    border-right: 1px solid var(--text-muted);
+    border-bottom: 1px solid var(--text-muted);
     transform: rotate(45deg);
     animation: scrollHintBounce 1.3s ease-in-out infinite;
     opacity: 0.9;
@@ -297,15 +312,15 @@ body {
     }
 }
 
+/* Hero Title – Playfair Display, italicize key words in HTML */
 .hero-title {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Playfair Display', serif;
     font-size: clamp(3rem, 12vw, 12rem);
     font-weight: 700;
     line-height: 0.95;
     letter-spacing: -0.02em;
-    color: #ffffff;
+    color: var(--text-main);
     margin-bottom: 2rem;
-    text-shadow: 0 0 40px rgba(100, 200, 255, 0.3);
     opacity: 0;
 }
 
@@ -318,10 +333,17 @@ body {
     opacity: 0;
 }
 
+.hero-title .char.italic {
+    font-style: italic;
+}
+
 .hero-subtitle {
-    font-size: clamp(1rem, 2vw, 1.5rem);
-    font-weight: 300;
-    color: rgba(255, 255, 255, 0.7);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(0.85rem, 2vw, 1rem);
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
     opacity: 0;
 }
 
@@ -342,37 +364,43 @@ body {
     direction: ltr;
 }
 
-/* Glassmorphism Cards */
-.glass-card {
-    background: rgba(255, 255, 255, 0.03);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
-    padding: 4rem;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-}
-
 @media (min-width: 1024px) {
     .content-grid {
         grid-template-columns: 1fr 1fr;
     }
 }
 
-/* Section Titles */
+/* Smoked Glass Cards – frosted dark, no gradient */
+.glass-card {
+    background: rgba(10, 10, 10, 0.6);
+    -webkit-backdrop-filter: blur(20px) saturate(0%);
+    backdrop-filter: blur(20px) saturate(0%);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 4rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+/* Section Titles – Playfair Display */
 .section-title {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Playfair Display', serif;
     font-size: clamp(2.5rem, 5vw, 4rem);
     font-weight: 600;
     margin-bottom: 1.5rem;
-    color: #ffffff;
+    color: var(--text-main);
     line-height: 1.1;
 }
 
+.section-title .italic {
+    font-style: italic;
+}
+
 .section-text {
-    font-size: clamp(1rem, 1.5vw, 1.25rem);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(0.9rem, 1.5vw, 1.1rem);
     line-height: 1.8;
-    color: rgba(255, 255, 255, 0.8);
+    letter-spacing: 0.02em;
+    color: var(--text-muted);
     margin-bottom: 2rem;
 }
 
@@ -387,27 +415,24 @@ body {
 
 .viz-label {
     display: block;
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.6);
-    margin-bottom: 0.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
 }
 
 .viz-bar {
-    height: 4px;
-    background: linear-gradient(90deg, rgba(100, 200, 255, 0.8), rgba(100, 200, 255, 0.3));
-    border-radius: 2px;
+    height: 2px;
+    background: var(--text-muted);
+    border-radius: 1px;
     animation: pulse 2s ease-in-out infinite;
 }
 
 @keyframes pulse {
-    0%, 100% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0.6;
-    }
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
 }
 
 /* Goals List */
@@ -421,9 +446,9 @@ body {
     align-items: center;
     gap: 1rem;
     padding: 1rem 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    font-size: 1.1rem;
-    transition: transform 0.3s ease, color 0.3s ease;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 1rem;
+    transition: color 0.3s ease;
 }
 
 .goal-item:last-child {
@@ -431,17 +456,20 @@ body {
 }
 
 .goal-item:hover {
-    transform: translateX(10px);
-    color: rgba(100, 200, 255, 1);
+    color: var(--accent-color);
 }
 
 .goal-icon {
-    color: rgba(100, 200, 255, 0.8);
-    font-size: 1.5rem;
+    color: var(--text-muted);
+    font-size: 1rem;
+}
+
+.goal-item:hover .goal-icon {
+    color: var(--accent-color);
 }
 
 .goal-text {
-    color: rgba(255, 255, 255, 0.9);
+    color: var(--text-main);
 }
 
 /* Footer */
@@ -455,48 +483,40 @@ body {
     padding: 5rem 2rem;
 }
 
-/* Magnetic Button */
+/* Magnetic Button – accent */
 .magnetic-btn {
     position: relative;
     padding: 1.5rem 4rem;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 1.25rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
     font-weight: 600;
-    color: #050505;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
-    border: 2px solid rgba(100, 200, 255, 0.5);
-    border-radius: 50px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-main);
+    background: var(--bg-panel);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
     cursor: none;
     overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease, color 0.3s ease;
     z-index: 1;
+    -webkit-backdrop-filter: blur(20px) saturate(0%);
+    backdrop-filter: blur(20px) saturate(0%);
 }
 
 .magnetic-btn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 10px 40px rgba(100, 200, 255, 0.4);
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    color: var(--bg-color);
+    box-shadow: 0 0 32px var(--accent-glow);
 }
 
 .magnetic-btn:active {
-    filter: brightness(0.8);
-  }
-
-.magnetic-btn .btn-glow {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    background: radial-gradient(circle, rgba(100, 200, 255, 0.6), transparent);
-    transform: translate(-50%, -50%);
-    transition: width 0.6s ease, height 0.6s ease;
-    z-index: -1;
-    border-radius: 50%;
+    filter: brightness(0.9);
 }
 
-.magnetic-btn:hover .btn-glow {
-    width: 300px;
-    height: 300px;
+.magnetic-btn .btn-glow {
+    display: none; /* No glowing orb in editorial dark */
 }
 
 .magnetic-btn .btn-text {
@@ -509,19 +529,17 @@ body {
     .glass-card {
         padding: 2rem;
     }
-    
     .section {
         padding: 3rem 1.5rem;
     }
-
     .scroll-hint {
         bottom: 1.5rem;
         padding: 0.6rem 0.9rem;
-        font-size: 0.85rem;
+        font-size: 0.65rem;
     }
 }
 
-/* Hide scrollbar but keep functionality */
+/* Scrollbar */
 ::-webkit-scrollbar {
     width: 8px;
 }
@@ -531,16 +549,16 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.2);
+    background: var(--border-color);
     border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.3);
+    background: var(--text-muted);
 }
 
 /* ==========================================
-   AUTH OVERLAY (Supabase Login/Register)
+   AUTH OVERLAY
    ========================================== */
 
 #auth-overlay {
@@ -551,43 +569,33 @@ body {
     align-items: center;
     justify-content: center;
     padding: 2rem;
-    background: rgba(0, 0, 0, 0.62);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
+    background: rgba(8, 9, 10, 0.85);
+    -webkit-backdrop-filter: blur(20px) saturate(0%);
+    backdrop-filter: blur(20px) saturate(0%);
 }
 
 #auth-card {
     position: relative;
     width: min(520px, 92vw);
-    border-radius: 22px;
+    border-radius: 8px;
     padding: 2.5rem 2.25rem 2rem;
-    background: rgba(255, 255, 255, 0.045);
-    border: 1px solid rgba(100, 200, 255, 0.22);
-    box-shadow:
-        0 24px 80px rgba(0, 0, 0, 0.6),
-        0 0 0 1px rgba(255, 255, 255, 0.06) inset,
-        0 0 40px rgba(100, 200, 255, 0.12);
-    -webkit-backdrop-filter: blur(14px);
-    backdrop-filter: blur(14px);
+    background: rgba(10, 10, 10, 0.6);
+    border: 1px solid var(--border-color);
+    -webkit-backdrop-filter: blur(20px) saturate(0%);
+    backdrop-filter: blur(20px) saturate(0%);
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5);
 }
 
 #auth-card::before {
-    content: "";
-    position: absolute;
-    inset: -1px;
-    border-radius: 24px;
-    background: linear-gradient(135deg, rgba(0, 255, 255, 0.35), rgba(255, 0, 255, 0.2), rgba(0, 255, 255, 0.18));
-    filter: blur(12px);
-    opacity: 0.35;
-    z-index: -1;
+    display: none;
 }
 
 #auth-title {
-    font-family: 'Space Grotesk', sans-serif;
-    letter-spacing: 0.12em;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    font-size: 1.1rem;
-    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.75rem;
+    color: var(--text-main);
     margin-bottom: 1.25rem;
 }
 
@@ -597,21 +605,20 @@ body {
     right: 0.9rem;
     width: 38px;
     height: 38px;
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    background: rgba(255, 255, 255, 0.05);
-    color: rgba(255, 255, 255, 0.9);
-    font-family: 'Space Grotesk', sans-serif;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-panel);
+    color: var(--text-main);
+    font-family: 'JetBrains Mono', monospace;
     font-weight: 600;
     line-height: 1;
     cursor: none;
-    transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    transition: border-color 0.2s ease, background 0.2s ease;
 }
 
 #auth-close:hover {
-    transform: translateY(-1px);
-    border-color: rgba(100, 200, 255, 0.5);
-    background: rgba(255, 255, 255, 0.07);
+    border-color: var(--accent-color);
+    background: rgba(255, 77, 0, 0.08);
 }
 
 #auth-tabs {
@@ -624,27 +631,27 @@ body {
 .auth-tab {
     width: 100%;
     padding: 0.75rem 1rem;
-    border-radius: 14px;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    background: rgba(255, 255, 255, 0.035);
-    color: rgba(255, 255, 255, 0.78);
-    font-family: 'Space Grotesk', sans-serif;
-    letter-spacing: 0.06em;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-panel);
+    color: var(--text-muted);
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
+    font-size: 0.7rem;
     cursor: none;
-    transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+    transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
 }
 
 .auth-tab:hover {
-    transform: translateY(-1px);
-    border-color: rgba(100, 200, 255, 0.45);
+    border-color: var(--text-muted);
+    color: var(--text-main);
 }
 
 .auth-tab.is-active {
-    color: rgba(255, 255, 255, 0.95);
-    border-color: rgba(100, 200, 255, 0.65);
-    background: rgba(100, 200, 255, 0.09);
-    box-shadow: 0 0 22px rgba(100, 200, 255, 0.22);
+    color: var(--text-main);
+    border-color: var(--accent-color);
+    background: rgba(255, 77, 0, 0.08);
 }
 
 #auth-form {
@@ -653,10 +660,11 @@ body {
 }
 
 .auth-label {
-    font-size: 0.85rem;
-    letter-spacing: 0.08em;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.65);
+    color: var(--text-muted);
     margin-top: 0.25rem;
 }
 
@@ -664,54 +672,51 @@ body {
     width: 100%;
     padding: 0.9rem 0.2rem;
     border: none;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+    border-bottom: 1px solid var(--border-color);
     background: transparent;
-    color: rgba(255, 255, 255, 0.92);
-    font-size: 1rem;
+    color: var(--text-main);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.95rem;
     outline: none;
 }
 
 .auth-input::placeholder {
-    color: rgba(255, 255, 255, 0.35);
+    color: var(--text-muted);
 }
 
 .auth-input:focus {
-    border-bottom-color: rgba(100, 200, 255, 0.75);
-    box-shadow: 0 10px 30px rgba(100, 200, 255, 0.12);
+    border-bottom-color: var(--accent-color);
 }
 
 #auth-error {
     min-height: 1.2rem;
     margin-top: 0.25rem;
-    color: rgba(255, 80, 80, 0.95);
-    font-size: 0.95rem;
+    color: #e05c5c;
+    font-size: 0.9rem;
 }
 
 .auth-submit {
     margin-top: 0.25rem;
     padding: 1rem 1.25rem;
-    border-radius: 16px;
-    border: 1px solid rgba(0, 255, 255, 0.55);
-    background: rgba(0, 255, 255, 0.08);
-    color: rgba(255, 255, 255, 0.95);
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 700;
-    letter-spacing: 0.14em;
+    border-radius: 4px;
+    border: 1px solid var(--accent-color);
+    background: rgba(255, 77, 0, 0.12);
+    color: var(--text-main);
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
+    font-size: 0.7rem;
     cursor: none;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease;
-    box-shadow: 0 0 26px rgba(0, 255, 255, 0.12);
+    transition: background 0.2s ease, border-color 0.2s ease;
 }
 
 .auth-submit:hover {
-    transform: translateY(-1px);
-    border-color: rgba(0, 255, 255, 0.9);
-    background: rgba(0, 255, 255, 0.14);
-    box-shadow: 0 0 32px rgba(0, 255, 255, 0.26);
+    background: var(--accent-color);
+    color: var(--bg-color);
 }
 
 .auth-submit:active {
-    transform: translateY(0px);
     filter: brightness(0.92);
 }
 

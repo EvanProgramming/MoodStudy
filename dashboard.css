@@ -1,6 +1,15 @@
-/* Command Center Dashboard */
+/* Command Center Dashboard – Silent Obsidian */
 
-/* Reset */
+:root {
+  --bg-color: #08090a;
+  --bg-panel: rgba(255, 255, 255, 0.03);
+  --text-main: #ECECEC;
+  --text-muted: #888888;
+  --border-color: rgba(255, 255, 255, 0.1);
+  --accent-color: #FF4D00;
+  --accent-glow: rgba(255, 77, 0, 0.3);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -13,9 +22,9 @@ html {
 
 body {
   min-height: 100vh;
-  background: #050505;
-  color: rgba(255, 255, 255, 0.92);
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--bg-color);
+  color: var(--text-main);
+  font-family: "JetBrains Mono", ui-monospace, monospace;
   line-height: 1.4;
   overflow-x: hidden;
   cursor: none;
@@ -32,7 +41,7 @@ button {
 }
 
 :focus-visible {
-  outline: 2px solid rgba(0, 255, 255, 0.9);
+  outline: 2px solid var(--accent-color);
   outline-offset: 3px;
 }
 
@@ -54,30 +63,26 @@ button {
 .custom-cursor.hover {
   width: 40px;
   height: 40px;
-  border-color: rgba(100, 200, 255, 0.8);
+  border-color: var(--accent-color);
 }
 
-/* Background effects */
+/* Background – no gradients */
 .bg-effects {
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  background:
-    radial-gradient(1200px 600px at 15% 10%, rgba(0, 255, 255, 0.12), transparent 60%),
-    radial-gradient(900px 500px at 85% 20%, rgba(255, 0, 255, 0.10), transparent 55%),
-    radial-gradient(1000px 650px at 60% 100%, rgba(100, 200, 255, 0.10), transparent 60%);
-  filter: saturate(1.1);
+  background: var(--bg-color);
 }
 
 .bg-effects::after {
   content: "";
   position: absolute;
   inset: 0;
-  opacity: 0.12;
+  opacity: 0.06;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+    linear-gradient(var(--border-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border-color) 1px, transparent 1px);
   background-size: 56px 56px;
   -webkit-mask-image: radial-gradient(closest-side at 50% 40%, rgba(0, 0, 0, 1), transparent 85%);
   mask-image: radial-gradient(closest-side at 50% 40%, rgba(0, 0, 0, 1), transparent 85%);
@@ -92,10 +97,10 @@ button {
   align-items: center;
   justify-content: space-between;
   padding: 1.1rem 1.25rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(5, 5, 5, 0.72);
-  -webkit-backdrop-filter: blur(14px);
-  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border-color);
+  background: rgba(10, 10, 10, 0.6);
+  -webkit-backdrop-filter: blur(20px) saturate(0%);
+  backdrop-filter: blur(20px) saturate(0%);
 }
 
 .container {
@@ -108,33 +113,19 @@ button {
   gap: 1.25rem;
 }
 
-/* Glass base */
+/* Smoked glass */
 .glass {
   position: relative;
-  border-radius: 22px;
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  background: rgba(255, 255, 255, 0.04);
-  -webkit-backdrop-filter: blur(14px);
-  backdrop-filter: blur(14px);
-  box-shadow:
-    0 18px 70px rgba(0, 0, 0, 0.55),
-    0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: rgba(10, 10, 10, 0.6);
+  -webkit-backdrop-filter: blur(20px) saturate(0%);
+  backdrop-filter: blur(20px) saturate(0%);
+  box-shadow: 0 18px 70px rgba(0, 0, 0, 0.5);
 }
 
 .glass::before {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  border-radius: 24px;
-  background: linear-gradient(
-    135deg,
-    rgba(0, 255, 255, 0.35),
-    rgba(255, 0, 255, 0.18),
-    rgba(0, 255, 255, 0.12)
-  );
-  filter: blur(18px);
-  opacity: 0.25;
-  z-index: -1;
+  display: none;
 }
 
 /* Header */
@@ -157,29 +148,28 @@ button {
 }
 
 .logo-text {
-  font-family: "Space Grotesk", sans-serif;
-  letter-spacing: 0.08em;
+  font-family: "JetBrains Mono", monospace;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   font-weight: 600;
-  font-size: 0.95rem;
-  color: rgba(255, 255, 255, 0.92);
+  font-size: 0.8rem;
+  color: var(--text-main);
 }
 
 .logout-btn {
   padding: 0.65rem 1rem;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(255, 255, 255, 0.03);
-  color: rgba(255, 255, 255, 0.85);
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-panel);
+  color: var(--text-main);
   cursor: pointer;
-  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
 }
 
 .logout-btn:hover {
   transform: translateY(-1px);
-  border-color: rgba(0, 255, 255, 0.45);
-  background: rgba(255, 255, 255, 0.05);
-  box-shadow: 0 0 24px rgba(0, 255, 255, 0.12);
+  border-color: var(--accent-color);
+  background: rgba(255, 77, 0, 0.08);
 }
 
 .logout-btn:disabled {
@@ -195,21 +185,22 @@ button {
 }
 
 .hero__title {
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Playfair Display", serif;
   font-size: clamp(2rem, 3.8vw, 3rem);
   letter-spacing: -0.02em;
   line-height: 1.05;
+  color: var(--text-main);
 }
 
 .hero__subtitle {
   margin-top: 0.45rem;
-  color: rgba(255, 255, 255, 0.72);
-  font-size: 1.05rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  letter-spacing: 0.06em;
 }
 
 .status {
-  color: rgba(0, 255, 255, 0.92);
-  text-shadow: 0 0 22px rgba(0, 255, 255, 0.18);
+  color: var(--accent-color);
 }
 
 .hero__badges {
@@ -223,11 +214,12 @@ button {
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 0.75rem;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(255, 255, 255, 0.03);
-  color: rgba(255, 255, 255, 0.82);
-  font-size: 0.92rem;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-panel);
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
 }
 
 /* Nav cards */
@@ -250,15 +242,12 @@ button {
 .action-card__icon {
   width: 54px;
   height: 54px;
-  border-radius: 16px;
+  border-radius: 8px;
   display: grid;
   place-items: center;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  color: rgba(0, 255, 255, 0.92);
-  box-shadow:
-    0 0 26px rgba(0, 255, 255, 0.10),
-    0 0 60px rgba(255, 0, 255, 0.06);
+  background: var(--bg-panel);
+  border: 1px solid var(--border-color);
+  color: var(--accent-color);
 }
 
 .action-card__icon svg {
@@ -267,49 +256,41 @@ button {
 }
 
 .action-card__title {
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Playfair Display", serif;
   font-size: 1.35rem;
   letter-spacing: -0.01em;
+  color: var(--text-main);
 }
 
 .action-card__text {
   margin-top: 0.25rem;
-  color: rgba(255, 255, 255, 0.70);
+  color: var(--text-muted);
+  font-size: 0.9rem;
 }
 
 .action-card__cta {
   margin-top: 0.7rem;
   display: inline-flex;
   gap: 0.5rem;
-  font-family: "Space Grotesk", sans-serif;
-  letter-spacing: 0.08em;
+  font-family: "JetBrains Mono", monospace;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.7rem;
+  color: var(--text-muted);
 }
 
 .action-card__glow {
-  position: absolute;
-  inset: -1px;
-  background:
-    radial-gradient(480px 220px at 30% 30%, rgba(0, 255, 255, 0.14), transparent 60%),
-    radial-gradient(520px 260px at 70% 60%, rgba(255, 0, 255, 0.10), transparent 55%);
-  opacity: 0;
-  transition: opacity 220ms ease;
-  pointer-events: none;
+  display: none;
 }
 
 .action-card:hover {
   transform: translateY(-4px);
-  border-color: rgba(0, 255, 255, 0.25);
-  box-shadow:
-    0 26px 90px rgba(0, 0, 0, 0.62),
-    0 0 0 1px rgba(255, 255, 255, 0.06) inset,
-    0 0 38px rgba(0, 255, 255, 0.10);
+  border-color: var(--accent-color);
+  box-shadow: 0 26px 90px rgba(0, 0, 0, 0.5);
 }
 
 .action-card:hover .action-card__glow {
-  opacity: 1;
+  opacity: 0;
 }
 
 /* Disabled state (once-per-day limit) */
@@ -321,10 +302,8 @@ button {
 
 .action-card.disabled:hover {
   transform: none;
-  border-color: rgba(255, 255, 255, 0.10);
-  box-shadow:
-    0 18px 70px rgba(0, 0, 0, 0.55),
-    0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+  border-color: var(--border-color);
+  box-shadow: 0 18px 70px rgba(0, 0, 0, 0.5);
 }
 
 .action-card.disabled:hover .action-card__glow {
@@ -345,30 +324,29 @@ button {
 }
 
 .insight__title {
-  font-family: "Space Grotesk", sans-serif;
-  letter-spacing: 0.10em;
+  font-family: "JetBrains Mono", monospace;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
-  font-size: 0.95rem;
-  color: rgba(255, 255, 255, 0.88);
+  font-size: 0.75rem;
+  color: var(--text-muted);
 }
 
 .insight__meta {
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.8rem;
+  color: var(--text-muted);
 }
 
 .insight__terminal {
   white-space: pre-wrap;
   word-break: break-word;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  font-size: 0.98rem;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.9rem;
   line-height: 1.55;
-  color: rgba(255, 255, 255, 0.82);
+  color: var(--text-main);
   padding: 1rem;
-  border-radius: 16px;
-  background: rgba(0, 0, 0, 0.35);
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  box-shadow: 0 0 30px rgba(0, 255, 255, 0.06);
+  border-radius: 8px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-color);
   min-height: 130px;
 }
 
@@ -423,16 +401,16 @@ button {
 }
 
 .onboarding-title {
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Playfair Display", serif;
   font-size: clamp(1.8rem, 4vw, 2.4rem);
   letter-spacing: -0.02em;
   margin-bottom: 0.5rem;
-  color: rgba(255, 255, 255, 0.95);
+  color: var(--text-main);
 }
 
 .onboarding-subtitle {
-  color: rgba(255, 255, 255, 0.72);
-  font-size: 1.05rem;
+  color: var(--text-muted);
+  font-size: 0.95rem;
 }
 
 .onboarding-content {
@@ -446,9 +424,9 @@ button {
   flex-direction: column;
   gap: 1rem;
   padding: 1.5rem;
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-color);
   transition: transform 0.25s ease, border-color 0.25s ease;
 }
 
@@ -463,56 +441,55 @@ button {
 }
 
 .onboarding-step__title {
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Playfair Display", serif;
   font-size: 1.5rem;
   letter-spacing: -0.01em;
-  color: rgba(255, 255, 255, 0.92);
+  color: var(--text-main);
   margin-bottom: 0.5rem;
 }
 
 .onboarding-step__text {
-  color: rgba(255, 255, 255, 0.75);
+  color: var(--text-muted);
   line-height: 1.6;
-  font-size: 1rem;
+  font-size: 0.95rem;
 }
 
 .onboarding-step__hint {
   margin-top: 0.75rem;
   padding: 0.9rem 1rem;
-  border-radius: 12px;
-  background: rgba(0, 255, 255, 0.08);
-  border: 1px solid rgba(0, 255, 255, 0.18);
-  color: rgba(255, 255, 255, 0.85);
-  font-size: 0.95rem;
+  border-radius: 8px;
+  background: rgba(255, 77, 0, 0.06);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  font-size: 0.9rem;
   line-height: 1.5;
 }
 
 .onboarding-step__hint strong {
-  color: rgba(0, 255, 255, 0.95);
+  color: var(--accent-color);
 }
 
 .onboarding-btn {
   margin-top: 0.5rem;
   padding: 0.9rem 1.8rem;
-  border-radius: 999px;
-  border: 1px solid rgba(0, 255, 255, 0.35);
-  background: rgba(0, 255, 255, 0.12);
-  color: rgba(255, 255, 255, 0.95);
-  font-family: "Space Grotesk", sans-serif;
+  border-radius: 4px;
+  border: 1px solid var(--accent-color);
+  background: rgba(255, 77, 0, 0.1);
+  color: var(--text-main);
+  font-family: "JetBrains Mono", monospace;
   font-weight: 600;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  font-size: 0.9rem;
+  font-size: 0.7rem;
   cursor: pointer;
-  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
   align-self: flex-start;
 }
 
 .onboarding-btn:hover {
   transform: translateY(-2px);
-  border-color: rgba(0, 255, 255, 0.55);
-  background: rgba(0, 255, 255, 0.18);
-  box-shadow: 0 0 32px rgba(0, 255, 255, 0.20);
+  background: var(--accent-color);
+  color: var(--bg-color);
 }
 
 .onboarding-btn:active {

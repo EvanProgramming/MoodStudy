@@ -1,4 +1,13 @@
-/* Your Rhythm - Mood & Habit Tracker */
+/* Your Rhythm – Silent Obsidian */
+
+:root {
+    --bg-color: #08090a;
+    --bg-panel: rgba(255, 255, 255, 0.03);
+    --text-main: #ECECEC;
+    --text-muted: #888888;
+    --border-color: rgba(255, 255, 255, 0.1);
+    --accent-color: #FF4D00;
+}
 
 * {
     margin: 0;
@@ -12,9 +21,9 @@ html {
 
 body {
     min-height: 100vh;
-    background: #050505;
-    color: rgba(255, 255, 255, 0.92);
-    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: var(--bg-color);
+    color: var(--text-main);
+    font-family: "JetBrains Mono", ui-monospace, monospace;
     line-height: 1.4;
     overflow-x: hidden;
 }
@@ -33,31 +42,26 @@ button {
 }
 
 :focus-visible {
-    outline: 2px solid rgba(0, 255, 255, 0.9);
+    outline: 2px solid var(--accent-color);
     outline-offset: 3px;
 }
 
-/* Background effects */
 .bg-effects {
     position: fixed;
     inset: 0;
     pointer-events: none;
     z-index: 0;
-    background:
-        radial-gradient(1200px 600px at 15% 10%, rgba(0, 255, 255, 0.12), transparent 60%),
-        radial-gradient(900px 500px at 85% 20%, rgba(255, 0, 255, 0.10), transparent 55%),
-        radial-gradient(1000px 650px at 60% 100%, rgba(100, 200, 255, 0.10), transparent 60%);
-    filter: saturate(1.1);
+    background: var(--bg-color);
 }
 
 .bg-effects::after {
     content: "";
     position: absolute;
     inset: 0;
-    opacity: 0.12;
+    opacity: 0.06;
     background-image:
-        linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+        linear-gradient(var(--border-color) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border-color) 1px, transparent 1px);
     background-size: 56px 56px;
     -webkit-mask-image: radial-gradient(closest-side at 50% 40%, rgba(0, 0, 0, 1), transparent 85%);
     mask-image: radial-gradient(closest-side at 50% 40%, rgba(0, 0, 0, 1), transparent 85%);
@@ -72,10 +76,10 @@ button {
     align-items: center;
     justify-content: space-between;
     padding: 1.1rem 1.25rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    background: rgba(5, 5, 5, 0.72);
-    -webkit-backdrop-filter: blur(14px);
-    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border-color);
+    background: rgba(10, 10, 10, 0.6);
+    -webkit-backdrop-filter: blur(20px) saturate(0%);
+    backdrop-filter: blur(20px) saturate(0%);
 }
 
 .logo {
@@ -97,20 +101,22 @@ button {
 }
 
 .logo-text {
-    font-family: "Space Grotesk", sans-serif;
-    font-size: 1.1rem;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.9rem;
     font-weight: 600;
-    letter-spacing: -0.01em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-main);
 }
 
 .back-link {
     font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.7);
+    color: var(--text-muted);
     transition: color 0.2s ease;
 }
 
 .back-link:hover {
-    color: rgba(0, 255, 255, 0.9);
+    color: var(--accent-color);
 }
 
 /* Container */
@@ -125,33 +131,18 @@ button {
     grid-template-columns: 1fr;
 }
 
-/* Glass base */
 .glass {
     position: relative;
-    border-radius: 22px;
-    border: 1px solid rgba(255, 255, 255, 0.10);
-    background: rgba(255, 255, 255, 0.04);
-    -webkit-backdrop-filter: blur(14px);
-    backdrop-filter: blur(14px);
-    box-shadow:
-        0 18px 70px rgba(0, 0, 0, 0.55),
-        0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background: rgba(10, 10, 10, 0.6);
+    -webkit-backdrop-filter: blur(20px) saturate(0%);
+    backdrop-filter: blur(20px) saturate(0%);
+    box-shadow: 0 18px 70px rgba(0, 0, 0, 0.5);
 }
 
 .glass::before {
-    content: "";
-    position: absolute;
-    inset: -1px;
-    border-radius: 24px;
-    background: linear-gradient(
-        135deg,
-        rgba(0, 255, 255, 0.35),
-        rgba(255, 0, 255, 0.18),
-        rgba(0, 255, 255, 0.12)
-    );
-    filter: blur(18px);
-    opacity: 0.25;
-    z-index: -1;
+    display: none;
 }
 
 /* Chart Sections */
@@ -160,16 +151,17 @@ button {
 }
 
 .chart-title {
-    font-family: "Space Grotesk", sans-serif;
+    font-family: "Playfair Display", serif;
     font-size: 1.75rem;
     font-weight: 600;
     margin-bottom: 0.5rem;
     letter-spacing: -0.01em;
+    color: var(--text-main);
 }
 
 .chart-subtitle {
-    font-size: 0.95rem;
-    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.85rem;
+    color: var(--text-muted);
     margin-bottom: 1.5rem;
 }
 
@@ -206,37 +198,37 @@ button {
 }
 
 .heatmap-day:hover {
-    border-color: rgba(0, 255, 255, 0.5);
+    border-color: var(--accent-color);
     transform: scale(1.2);
     z-index: 10;
 }
 
 .heatmap-day.has-data {
-    border-color: rgba(0, 255, 255, 0.3);
+    border-color: var(--text-muted);
 }
 
 .heatmap-day[data-intensity="0"] {
-    background: rgba(0, 255, 255, 0.1);
+    background: rgba(255, 77, 0, 0.12);
 }
 
 .heatmap-day[data-intensity="1"] {
-    background: rgba(0, 255, 255, 0.2);
+    background: rgba(255, 77, 0, 0.25);
 }
 
 .heatmap-day[data-intensity="2"] {
-    background: rgba(0, 255, 255, 0.35);
+    background: rgba(255, 77, 0, 0.4);
 }
 
 .heatmap-day[data-intensity="3"] {
-    background: rgba(0, 255, 255, 0.5);
+    background: rgba(255, 77, 0, 0.55);
 }
 
 .heatmap-day[data-intensity="4"] {
-    background: rgba(0, 255, 255, 0.7);
+    background: rgba(255, 77, 0, 0.75);
 }
 
 .heatmap-day[data-intensity="5"] {
-    background: rgba(0, 255, 255, 0.9);
+    background: var(--accent-color);
 }
 
 .heatmap-tooltip {
@@ -244,9 +236,9 @@ button {
     bottom: 100%;
     left: 50%;
     transform: translateX(-50%) translateY(-8px);
-    background: rgba(5, 5, 5, 0.95);
-    border: 1px solid rgba(0, 255, 255, 0.3);
-    border-radius: 6px;
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
     padding: 0.5rem 0.75rem;
     font-size: 0.75rem;
     white-space: nowrap;
@@ -283,14 +275,15 @@ button {
 }
 
 .empty-title {
-    font-family: "Space Grotesk", sans-serif;
+    font-family: "Playfair Display", serif;
     font-size: 1.5rem;
     font-weight: 600;
     margin-bottom: 0.75rem;
+    color: var(--text-main);
 }
 
 .empty-text {
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--text-muted);
     margin-bottom: 1.5rem;
     line-height: 1.6;
 }
@@ -298,18 +291,21 @@ button {
 .empty-link {
     display: inline-block;
     padding: 0.75rem 1.5rem;
-    background: rgba(0, 255, 255, 0.1);
-    border: 1px solid rgba(0, 255, 255, 0.3);
-    border-radius: 12px;
-    color: rgba(0, 255, 255, 0.95);
+    background: rgba(255, 77, 0, 0.08);
+    border: 1px solid var(--accent-color);
+    border-radius: 8px;
+    color: var(--accent-color);
+    font-family: "JetBrains Mono", monospace;
     font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-size: 0.8rem;
     transition: all 0.2s ease;
 }
 
 .empty-link:hover {
-    background: rgba(0, 255, 255, 0.15);
-    border-color: rgba(0, 255, 255, 0.5);
-    box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+    background: var(--accent-color);
+    color: var(--bg-color);
     transform: translateY(-1px);
 }
 
