@@ -246,9 +246,9 @@ lenis.on('scroll', ({ scroll, limit, velocity }) => {
     let keyLight2Intensity = 0.4;
     let heroSpotLightIntensity = 0;
     
-    // Section 1 -> 2: Chaos to Glass Sphere (earlier transition to match content cards)
-    if (scrollProgress < 0.28) {
-        const t = scrollProgress * 3.57; // Map 0-0.28 to 0-1 (faster transition, earlier start)
+    // Section 1 -> 2: Chaos to Glass Sphere
+    if (scrollProgress < 0.5) {
+        const t = scrollProgress * 2; // Map 0-0.5 to 0-1
         const chaosScale = 1.0 - t;
         sphereBaseScale = t; // Store base scale for breathing animation
         
@@ -275,9 +275,9 @@ lenis.on('scroll', ({ scroll, limit, velocity }) => {
             heroSpotLightIntensity = 0;
         }
     } 
-    // Section 2 -> 3: Glass Sphere to Torus (earlier transition to match content cards)
+    // Section 2 -> 3: Glass Sphere to Torus
     else {
-        const t = Math.min(1, (scrollProgress - 0.28) / 0.36); // Map 0.28-0.64 to 0-1 (aligned with section positions)
+        const t = (scrollProgress - 0.5) * 2; // Map 0.5-1.0 to 0-1
         sphereBaseScale = 1.0 - t; // Store base scale for breathing animation
         const torusScale = t;
         
