@@ -512,7 +512,7 @@ Analyze my day as a strict but caring academic coach.
 2. 🎯 **Tactic for Tomorrow**: Give me ONE specific, actionable step to improve.
 3. 🔮 **Long-term Impact**: If I keep this up, how will it affect my ${major} goal?
 
-Constraint: Keep it under 100 words. Be direct. No fluff.`;
+Constraint: Keep at least 150 words. Be direct and specific. No fluff.`;
 }
 
 async function fetchUserProfile() {
