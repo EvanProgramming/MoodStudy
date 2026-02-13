@@ -509,10 +509,14 @@ function buildPrompt({ profile, log, milestonesString }) {
 [Task]
 Analyze my day as a strict but caring academic coach.
 1. ⚡ **Pulse Check**: One sentence diagnosis of my balance (sleep vs work).
-2. 🎯 **Tactic for Tomorrow**: Give me ONE specific, actionable step to improve.
+2. 🎯 **Tactic for Tomorrow**: Give me TWO specific, actionable steps to improve for tomorrow.
 3. 🔮 **Long-term Impact**: If I keep this up, how will it affect my ${major} goal?
+4. A summary of the day's activities and how it affected my mood.
+5. A list of tasks for tomorrow.
 
-Constraint: Keep at least 150 words. Be direct and specific. No fluff.`;
+Constraint: Keep at least 150 words. Be direct and specific. No fluff.
+Format: Use markdown to format the output.
+`;
 }
 
 async function fetchUserProfile() {
