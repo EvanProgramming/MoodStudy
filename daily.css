@@ -444,6 +444,47 @@ button {
   background: var(--text-muted);
 }
 
+/* Markdown styling for AI output */
+.result-text strong {
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.result-text ul,
+.result-text ol {
+  margin: 0.5rem 0 0 1rem;
+  padding-left: 1rem;
+}
+
+.result-text li {
+  margin: 0.25rem 0;
+}
+
+.result-text p {
+  margin: 0.5rem 0;
+}
+
+.result-text p:first-child {
+  margin-top: 0;
+}
+
+.result-text p:last-child {
+  margin-bottom: 0;
+}
+
+.result-text h1,
+.result-text h2,
+.result-text h3 {
+  margin: 0.75rem 0 0.35rem;
+  font-weight: 600;
+}
+
+.result-text h1:first-child,
+.result-text h2:first-child,
+.result-text h3:first-child {
+  margin-top: 0;
+}
+
 .result-actions {
   margin-top: 1.5rem;
   display: flex;

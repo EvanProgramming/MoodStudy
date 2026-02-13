@@ -53,6 +53,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <!-- GSAP for load animations -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <!-- Marked for markdown rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   </head>
   <body>
     <div class="bg-effects" aria-hidden="true"></div>
@@ -264,7 +266,7 @@
           <h3 id="insight-title" class="insight__title">Insight Console</h3>
           <span id="insight-meta" class="insight__meta">—</span>
         </div>
-        <pre id="insight-text" class="insight__terminal">Fetching latest strategy…</pre>
+        <div id="insight-text" class="insight__terminal">Fetching latest strategy…</div>
       </section>
     </main>
 

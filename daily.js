@@ -657,11 +657,16 @@ function fallbackAnalysis(profile) {
   return `User Profile: GPA ${p.gpa}, Aiming for ${p.major}. Today’s signal suggests: ${sleepNote} ${focusNote} ${distractNote} Mood is ${mood}/10, which is a useful indicator of load vs recovery. Advice: ${advice}`;
 }
 
-function typewriter(el, text, { speedMs = 14 } = {}) {
+function renderMarkdown(text) {
+  if (!text) return '';
+  return window.marked?.parse?.(text) ?? text;
+}
+
+function typewriter(el, text, { speedMs = 14, renderMarkdownOnFinish = false } = {}) {
   if (!el) return { stop: () => {}, finish: () => {} };
 
   if (speedMs <= 0) {
-    el.textContent = text;
+    el.innerHTML = renderMarkdownOnFinish ? renderMarkdown(text) : text;
     return { stop: () => {}, finish: () => {} };
   }
 
@@ -676,6 +681,7 @@ function typewriter(el, text, { speedMs = 14 } = {}) {
     i += 1;
     el.textContent = text.slice(0, i);
     if (i >= text.length) {
+      el.innerHTML = renderMarkdownOnFinish ? renderMarkdown(text) : text;
       timer = null;
       return;
     }
@@ -692,7 +698,7 @@ function typewriter(el, text, { speedMs = 14 } = {}) {
     finish: () => {
       stopped = true;
       if (timer) window.clearTimeout(timer);
-      el.textContent = text;
+      el.innerHTML = renderMarkdownOnFinish ? renderMarkdown(text) : text;
     },
   };
 }
@@ -789,7 +795,10 @@ async function finalizeAndGenerate() {
   openResultOverlay();
 
   const textEl = els.resultText;
-  const writer = typewriter(textEl, analysisText, { speedMs: prefersReducedMotion() ? 0 : 14 });
+  const writer = typewriter(textEl, analysisText, {
+    speedMs: prefersReducedMotion() ? 0 : 14,
+    renderMarkdownOnFinish: true,
+  });
 
   if (els.skipType) {
     els.skipType.onclick = () => writer.finish();

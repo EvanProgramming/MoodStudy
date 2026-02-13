@@ -95,6 +95,11 @@ async function loadProfileBadge() {
   els.majorBadge.textContent = `Targeting ${safeText(data.major, '—')}`;
 }
 
+function renderMarkdown(text) {
+  if (!text) return '';
+  return window.marked?.parse?.(text) ?? text;
+}
+
 async function loadLatestInsight() {
   if (!els.insightText || !els.insightMeta) return;
 
@@ -125,7 +130,7 @@ async function loadLatestInsight() {
     return;
   }
 
-  els.insightText.textContent = plan.trim();
+  els.insightText.innerHTML = renderMarkdown(plan.trim());
   els.insightMeta.textContent = `AI: ${formatDateTime(row?.created_at)}`;
 }
 

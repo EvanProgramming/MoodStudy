@@ -350,6 +350,47 @@ button {
   min-height: 130px;
 }
 
+/* Markdown styling for Insight Console */
+.insight__terminal strong {
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.insight__terminal ul,
+.insight__terminal ol {
+  margin: 0.5rem 0 0 1rem;
+  padding-left: 1rem;
+}
+
+.insight__terminal li {
+  margin: 0.25rem 0;
+}
+
+.insight__terminal p {
+  margin: 0.5rem 0;
+}
+
+.insight__terminal p:first-child {
+  margin-top: 0;
+}
+
+.insight__terminal p:last-child {
+  margin-bottom: 0;
+}
+
+.insight__terminal h1,
+.insight__terminal h2,
+.insight__terminal h3 {
+  margin: 0.75rem 0 0.35rem;
+  font-weight: 600;
+}
+
+.insight__terminal h1:first-child,
+.insight__terminal h2:first-child,
+.insight__terminal h3:first-child {
+  margin-top: 0;
+}
+
 /* Responsive */
 @media (min-width: 920px) {
   .nav-grid {
