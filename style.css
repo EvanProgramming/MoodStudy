@@ -18,6 +18,9 @@
     /* Accent: International Orange (buttons, active states only) */
     --accent-color: #FF4D00;
     --accent-glow: rgba(255, 77, 0, 0.3);
+
+    /* Cursor: visible on dark bg, not harsh */
+    --cursor-color: rgba(200, 200, 200, 0.72);
 }
 
 /* Reset & Base */
@@ -57,7 +60,7 @@ body {
 .custom-cursor {
     width: 20px;
     height: 20px;
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--cursor-color);
     border-radius: 50%;
     position: fixed;
     left: 0;
